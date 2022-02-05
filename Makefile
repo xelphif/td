@@ -7,17 +7,17 @@ BINDIR	= bin
 DIRS	= $(SRCDIR) $(OBJDIR) $(BINDIR)
 
 NCTODO	= $(BINDIR)/nctodo
-TCLI	= $(BINDIR)/tcli
+TD	= $(BINDIR)/td
 
 rm		= rm -f
 
-all: $(NCTODO) $(TCLI)
+all: $(NCTODO) $(TD)
 
-$(NCTODO) : $(OBJDIR)/nctodo.o $(OBJDIR)/node.o | $(DIRS)
+$(NCTODO) : $(OBJDIR)/nctodo.o $(OBJDIR)/node.o
 	@$(CC) $(LIBS) $? -o $@
 	@echo "Linking complete"
 
-$(TCLI) : $(OBJDIR)/tcli.o $(OBJDIR)/node.o | $(DIRS)
+$(TD) : $(OBJDIR)/td.o $(OBJDIR)/node.o
 	@$(CC) $? -o $@
 	@echo "Linking complete"
 
