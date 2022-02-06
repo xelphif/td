@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include "task.h"
 
@@ -25,14 +26,14 @@ info_t *init_info() {
     return info;
 }
 
-void list_add(task_t **tasks, task_t *task, info_t *info) {
+task_t **list_add(task_t **tasks, task_t *task, info_t *info) {
     if (info->used == info->size) {
         info->size *= 2;
         tasks = realloc(tasks, info->size * sizeof(task_t));
     }
 
     tasks[(info->used)++] = task;
-    return;
+    return tasks;
 }
 
 void delete_task(task_t *task) {
@@ -65,7 +66,7 @@ task_t **load_list(char *filename, info_t *info) {
 
     while ((len = getline(&buf, &n, fp)) != -1) {
         sscanf(buf, "%d:%[^\n]", &finished, buf);
-        list_add(tasks, init_task(buf, len, finished), info);
+        tasks = list_add(tasks, init_task(buf, len - 2, finished), info);
     }
 
     free(buf);
@@ -77,6 +78,8 @@ task_t **load_list(char *filename, info_t *info) {
 void dump_list(char *filename, task_t **tasks, info_t *info) {
     FILE *fp = fopen(filename, "w");
 
+    struct stat st;
+
     for (int i = 0; i < info->used; i++) {
         if (tasks[i]->deleted)
             continue;
@@ -85,12 +88,17 @@ void dump_list(char *filename, task_t **tasks, info_t *info) {
 
     fclose(fp);
 
+    if (stat(filename, &st) != -1 && st.st_size == 0)
+        remove(FILENAME);
+
     return;
 }
 
 void free_list(task_t **tasks, info_t *info) {
-    for (int i = 0; i < info->used; i++)
+    for (int i = 0; i < info->used; i++) {
         free(tasks[i]->text);
+        free(tasks[i]);
+    }
     free(info);
     free(tasks);
 
@@ -102,7 +110,7 @@ void print_list(task_t **tasks, info_t *info) {
     for (int i = 0; i < info->used; i++) {
         if (tasks[i]->deleted)
             continue;
-        printf("%d. %s %s\n", display, finish_s(tasks[i]->finished), tasks[i]->text);
+        printf("%3d. %s %s\n", display, finish_s(tasks[i]->finished), tasks[i]->text);
         display++;
     }
 

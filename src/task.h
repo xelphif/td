@@ -3,7 +3,7 @@
 
 #define FILENAME    "TODO"
 #define DONE_S_LEN  4
-#define INIT_SIZE   10
+#define INIT_SIZE   16
 
 static char   done_s[DONE_S_LEN]   = "[x]";
 static char n_done_s[DONE_S_LEN]   = "[ ]";
@@ -21,7 +21,7 @@ typedef struct INFO {
 
 task_t *init_task (char *text, size_t len, int finished);
 info_t *init_info ();
-void  list_add    (task_t **tasks, task_t *task, info_t *info);
+task_t **list_add    (task_t **tasks, task_t *task, info_t *info);
 void  delete_task (task_t *task);
 void  finish_task (task_t *task);
 char *finish_s    (int finished);

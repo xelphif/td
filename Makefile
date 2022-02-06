@@ -1,5 +1,5 @@
-CC 		= gcc
-LIBS	= -lncurses -lmenu
+CC 			= gcc
+LIBS		= -lncurses -lmenu
 
 SRCDIR	= src
 OBJDIR	= obj

@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
             case 'a' :
                 len = strlen(optarg) + 1;
                 // push_node(&head, init_node(optarg, strlen(optarg), 0));
-                list_add(tasks, init_task(optarg, len, 0), info);
+                tasks = list_add(tasks, init_task(optarg, len, 0), info);
                 mod = 1;
                 break;
             case 'd' :
@@ -50,8 +50,6 @@ int main(int argc, char *argv[]) {
 
     if (mod == 1)
         dump_list(FILENAME, tasks, info);
-
-
 
     print_list(tasks, info);
     free_list(tasks, info);
