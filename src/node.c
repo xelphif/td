@@ -1,9 +1,13 @@
+/*
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "node.h"
+
+char check_true[4]  = "[x]";
+char check_false[4] = "[ ]";
 
 node_t *init_node(char *task, size_t len, int check) {
     node_t *node = malloc(sizeof(node_t) + len * sizeof(char));
@@ -56,6 +60,10 @@ void check_node(node_t *node) {
     return;
 }
 
+char *checks(int check) {
+    return check ? check_true : check_false;
+}
+
 node_t *find_node(node_t *head, int index) {
     node_t *curr = head;
     for (int i = 0; i < index; i++) {
@@ -78,7 +86,7 @@ void free_list(node_t *head) {
 
 // IO
 
-node_t *load_list(char *filename) {
+node_t *load_list(char *filename, int *n_nodes) {
     FILE *fp = fopen(filename, "r");
 
     if (!fp)
@@ -89,12 +97,15 @@ node_t *load_list(char *filename) {
     size_t n = 0;
     size_t len;
 
-    int check;
+    int check, i = 0;
 
-    while ((len = getline(&buf, &n, fp)) != -1) {
+    for (i = 0; (len = getline(&buf, &n, fp)) != -1; i++) {
         sscanf(buf, "%d:%[^\n]", &check, buf);
         push_node(&head, init_node(buf, len, check));
     }
+
+    if (n_nodes != NULL)
+        *n_nodes = i;
 
     free(buf);
     fclose(fp);
@@ -121,13 +132,12 @@ void dump_list(node_t *head, char *filename) {
     return;
 }
 
-void print_list(int (*print)(const char *fmt, ...), node_t *head) {
+void print_list(node_t *head) {
     node_t *curr = head;
 
-    int i = 0;
-    while (curr != NULL) {
-        print("%i. [%c] %s\n", i, curr->check ? 'x' : ' ', curr->task);
+    for (int i = 0; curr != NULL; i++) {
+        printf("%i. %s %s\n", i, checks(curr->check), curr->task);
         curr = curr->next;
-        i++;
     }
 }
+*/

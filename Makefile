@@ -1,5 +1,5 @@
 CC 		= gcc
-LIBS	= -lncurses
+LIBS	= -lncurses -lmenu
 
 SRCDIR	= src
 OBJDIR	= obj
@@ -13,12 +13,12 @@ rm		= rm -f
 
 all: $(NCTODO) $(TD)
 
-$(NCTODO) : $(OBJDIR)/nctodo.o $(OBJDIR)/node.o
-	@$(CC) $(LIBS) $? -o $@
+$(NCTODO) : $(OBJDIR)/nctodo.o $(OBJDIR)/task.o
+	@$(CC) $(LIBS) $^ -o $@
 	@echo "Linking complete"
 
-$(TD) : $(OBJDIR)/td.o $(OBJDIR)/node.o
-	@$(CC) $? -o $@
+$(TD) : $(OBJDIR)/td.o $(OBJDIR)/task.o
+	@$(CC) $^ -o $@
 	@echo "Linking complete"
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c | $(DIRS)

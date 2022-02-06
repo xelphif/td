@@ -3,7 +3,7 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "node.h"
+#include "task.h"
 
 
 void print_usage() {
@@ -11,9 +11,13 @@ void print_usage() {
 }
 
 int main(int argc, char *argv[]) {
-    node_t *head = load_list(FILENAME);
+    size_t used = 0, init_size = INIT_SIZE;
+
+    task_t **tasks = load_list(FILENAME, &used, &init_size);
 
     int opt = 0, mod = 0;
+    size_t len;
+
     static struct option long_options[] = {
         { "add",    required_argument,  0,  'a'},
         { "delete", required_argument,  0,  'd'},
@@ -26,15 +30,17 @@ int main(int argc, char *argv[]) {
                     long_options, &option_index )) != -1) {
         switch (opt) {
             case 'a' :
-                push_node(&head, init_node(optarg, strlen(optarg), 0));
+                len = strlen(optarg) + 1;
+                // push_node(&head, init_node(optarg, strlen(optarg), 0));
+                list_add(tasks, init_task(optarg, len, 0), &used, &init_size);
                 mod = 1;
                 break;
             case 'd' :
-                delete_node(&head, find_node(head, atoi(optarg)));
+                delete_task(tasks[atoi(optarg)]);
                 mod = 1;
                 break;
             case 'c' :
-                check_node(find_node(head, atoi(optarg)));
+                finish_task(tasks[atoi(optarg)]);
                 mod = 1;
                 break;
             default :
@@ -44,10 +50,10 @@ int main(int argc, char *argv[]) {
     }
 
     if (mod == 1)
-        dump_list(head, FILENAME);
+        dump_list(FILENAME, tasks, used);
 
-    print_list(printf, head);
-    free_list(head);
+    print_list(tasks, used);
+    free_list(tasks, used);
 
     return 0;
 }
