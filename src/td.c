@@ -11,9 +11,8 @@ void print_usage() {
 }
 
 int main(int argc, char *argv[]) {
-    size_t used = 0, init_size = INIT_SIZE;
-
-    task_t **tasks = load_list(FILENAME, &used, &init_size);
+    info_t *info = init_info();
+    task_t **tasks = load_list(FILENAME, info);
 
     int opt = 0, mod = 0;
     size_t len;
@@ -32,7 +31,7 @@ int main(int argc, char *argv[]) {
             case 'a' :
                 len = strlen(optarg) + 1;
                 // push_node(&head, init_node(optarg, strlen(optarg), 0));
-                list_add(tasks, init_task(optarg, len, 0), &used, &init_size);
+                list_add(tasks, init_task(optarg, len, 0), info);
                 mod = 1;
                 break;
             case 'd' :
@@ -50,10 +49,12 @@ int main(int argc, char *argv[]) {
     }
 
     if (mod == 1)
-        dump_list(FILENAME, tasks, used);
+        dump_list(FILENAME, tasks, info);
 
-    print_list(tasks, used);
-    free_list(tasks, used);
+
+
+    print_list(tasks, info);
+    free_list(tasks, info);
 
     return 0;
 }

@@ -14,15 +14,21 @@ typedef struct TASK {
     char *text;
 } task_t;
 
+typedef struct INFO {
+    size_t size;
+    size_t used;
+} info_t;
+
 task_t *init_task (char *text, size_t len, int finished);
-task_t **list_add (task_t **tasks, task_t *task, size_t *used, size_t *size);
+info_t *init_info ();
+void  list_add    (task_t **tasks, task_t *task, info_t *info);
 void  delete_task (task_t *task);
 void  finish_task (task_t *task);
 char *finish_s    (int finished);
 
-task_t **load_list  (char *filename, size_t *n_tasks, size_t *size);
-void     dump_list  (char *filename, task_t **tasks, size_t used);
-void     free_list  (task_t **tasks, size_t used);
-void     print_list (task_t **tasks, size_t used);
+task_t **load_list  (char *filename, info_t *info);
+void     dump_list  (char *filename, task_t **tasks, info_t *info);
+void     free_list  (task_t **tasks, info_t *info);
+void     print_list (task_t **tasks, info_t *info);
 
 #endif
