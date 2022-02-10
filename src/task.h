@@ -11,18 +11,19 @@ static char n_done_s[DONE_S_LEN]   = "[ ]";
 typedef struct TASK {
     int finished;
     int deleted;
-    char *text;
+    char text[];
 } task_t;
 
 typedef struct INFO {
     size_t size;
     size_t used;
+    size_t longest;
 } info_t;
 
 task_t *init_task (char *text, size_t len, int finished);
 info_t *init_info ();
 task_t **list_add    (task_t **tasks, task_t *task, info_t *info);
-void  delete_task (task_t *task);
+void  delete_task (task_t *task, info_t *info);
 void  finish_task (task_t *task);
 char *finish_s    (int finished);
 

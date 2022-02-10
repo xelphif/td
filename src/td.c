@@ -18,9 +18,9 @@ int main(int argc, char *argv[]) {
     size_t len;
 
     static struct option long_options[] = {
-        { "add",    required_argument,  0,  'a'},
-        { "delete", required_argument,  0,  'd'},
-        { "check",  required_argument,  0,  'c'},
+        { "add",    required_argument,  0,  'a' },
+        { "delete", required_argument,  0,  'd' },
+        { "check",  required_argument,  0,  'c' },
         {0, 0, 0, 0}
     };
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
                 mod = 1;
                 break;
             case 'd' :
-                delete_task(tasks[atoi(optarg)]);
+                delete_task(tasks[atoi(optarg)], info);
                 mod = 1;
                 break;
             case 'c' :

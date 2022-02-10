@@ -7,8 +7,8 @@
 #include "task.h"
 
 task_t *init_task(char *text, size_t len, int finished) {
-    task_t *task = malloc(sizeof(task_t));
-    task->text = malloc(sizeof(char) * len);
+    task_t *task = malloc(sizeof(task_t) + len * sizeof(char));
+    /* task->text = malloc(sizeof(char) * len); */
 
     task->finished = finished;
     task->deleted  = 0;
@@ -21,7 +21,7 @@ info_t *init_info() {
     info_t *info = malloc(sizeof(info_t));
     info->size = INIT_SIZE;
     info->used = 0;
-
+    info->longest = 0;
 
     return info;
 }
@@ -29,14 +29,14 @@ info_t *init_info() {
 task_t **list_add(task_t **tasks, task_t *task, info_t *info) {
     if (info->used == info->size) {
         info->size *= 2;
-        tasks = realloc(tasks, info->size * sizeof(task_t));
+        tasks = realloc(tasks, info->size * sizeof(task_t *));
     }
 
     tasks[(info->used)++] = task;
     return tasks;
 }
 
-void delete_task(task_t *task) {
+void delete_task(task_t *task, info_t *info) {
     task->deleted = 1;
 }
 
@@ -48,12 +48,13 @@ char *finish_s(int finished) {
     return finished ? done_s : n_done_s;
 }
 
+
 // IO
 
 task_t **load_list(char *filename, info_t *info) {
     FILE *fp = fopen(filename, "r");
 
-    task_t **tasks = calloc(sizeof(task_t), info->size);
+    task_t **tasks = malloc(info->size * sizeof(task_t *));
 
     if (fp == NULL)
         return tasks;
@@ -67,6 +68,8 @@ task_t **load_list(char *filename, info_t *info) {
     while ((len = getline(&buf, &n, fp)) != -1) {
         sscanf(buf, "%d:%[^\n]", &finished, buf);
         tasks = list_add(tasks, init_task(buf, len - 2, finished), info);
+        if (len - 2 > info->longest)
+            info->longest = len - 2;
     }
 
     free(buf);
@@ -96,9 +99,10 @@ void dump_list(char *filename, task_t **tasks, info_t *info) {
 
 void free_list(task_t **tasks, info_t *info) {
     for (int i = 0; i < info->used; i++) {
-        free(tasks[i]->text);
+        /* free(tasks[i]->text); */
         free(tasks[i]);
     }
+
     free(info);
     free(tasks);
 
