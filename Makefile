@@ -1,33 +1,34 @@
-CC 			= gcc
-LIBS		= -lncurses
+TARGET   = nctodo
 
-SRCDIR	= src
-OBJDIR	= obj
-BINDIR	= bin
-DIRS	= $(SRCDIR) $(OBJDIR) $(BINDIR)
+CC       = gcc
+CFLAGS   = -Wall
 
-NCTODO	= $(BINDIR)/nctodo
-TD	= $(BINDIR)/td
+LINKER   = gcc
+LFLAGS   = -Wall -lncurses
 
-rm		= rm -f
+SRCDIR   = src
+OBJDIR   = obj
+BINDIR   = bin
 
-all: $(NCTODO) $(TD)
+SOURCES  := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+rm       = rm -f
 
-$(NCTODO) : $(OBJDIR)/nctodo.o $(OBJDIR)/task.o
-	@$(CC) $(LIBS) $^ -o $@
-	@echo "Linking complete"
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
+	@echo "Linking complete!"
 
-$(TD) : $(OBJDIR)/td.o $(OBJDIR)/task.o
-	@$(CC) $^ -o $@
-	@echo "Linking complete"
-
-$(OBJDIR)/%.o : $(SRCDIR)/%.c | $(DIRS)
-	@$(CC) -c $< -o $@
-	@echo "Compiled "$<" successfully"
-
-$(DIRS):
-	@mkdir -p $(DIRS)
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" successfully!"
 
 .PHONY: clean
 clean:
-	$(rm) $(OBJDIR)/*.o
+	@$(rm) $(OBJECTS)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
+remove: clean
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"
