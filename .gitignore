@@ -4,3 +4,6 @@
 
 #ignore binaries
 bin/
+
+#ignore generated file
+TODO
