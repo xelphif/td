@@ -5,8 +5,8 @@
 #define DONE_S_LEN  4
 #define INIT_SIZE   16
 
-static char   done_s[DONE_S_LEN]   = "[x]";
-static char n_done_s[DONE_S_LEN]   = "[ ]";
+extern char   done_s[];
+extern char n_done_s[];
 
 typedef struct TASK {
     int finished;

@@ -6,6 +6,9 @@
 
 #include "task.h"
 
+char done_s[DONE_S_LEN] = "[x]";
+char n_done_s[DONE_S_LEN] = "[ ]";
+
 task_t *init_task(char *text, size_t len, int finished) {
     task_t *task = malloc(sizeof(task_t) + len * sizeof(char));
     /* task->text = malloc(sizeof(char) * len); */
