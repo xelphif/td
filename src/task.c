@@ -6,41 +6,52 @@
 
 #include "task.h"
 
-char done_s[DONE_S_LEN] = "[x]";
+char   done_s[DONE_S_LEN] = "[x]";
 char n_done_s[DONE_S_LEN] = "[ ]";
+
+int used = 0, size = ARRAY_INIT_SIZE, longest = 0;
 
 task_t *init_task(char *text, size_t len, int finished) {
     task_t *task = malloc(sizeof(task_t) + len * sizeof(char));
     /* task->text = malloc(sizeof(char) * len); */
 
     task->finished = finished;
-    task->deleted  = 0;
     strncpy(task->text, text, len);
+
+    if (len > longest)
+        longest = len;
 
     return task;
 }
 
-info_t *init_info() {
-    info_t *info = malloc(sizeof(info_t));
-    info->size = INIT_SIZE;
-    info->used = 0;
-    info->longest = 0;
-
-    return info;
-}
-
-task_t **list_add(task_t **tasks, task_t *task, info_t *info) {
-    if (info->used == info->size) {
-        info->size *= 2;
-        tasks = realloc(tasks, info->size * sizeof(task_t *));
+task_t **list_add(task_t **tasks, task_t *task) {
+    if (used == size) {
+        size *= 2;
+        tasks = realloc(tasks, size * sizeof(task_t *));
     }
 
-    tasks[(info->used)++] = task;
+    tasks[used++] = task;
     return tasks;
 }
 
-void delete_task(task_t *task, info_t *info) {
-    task->deleted = 1;
+task_t **delete_task(task_t **tasks, int remove_index) {
+    if (used == 0)
+        return;
+
+    free(tasks[remove_index]);
+
+    if (remove_index + 1 < used)
+        memmove(tasks + remove_index, tasks + remove_index + 1,
+                sizeof(task_t *) * (used - remove_index - 1));
+
+    used--;
+
+    if (used < size / 2) {
+        size /= 2;
+        tasks = realloc(tasks, size * sizeof(task_t *));
+    }
+
+    return tasks;
 }
 
 void finish_task(task_t *task) {
@@ -54,25 +65,25 @@ char *finish_s(int finished) {
 
 // IO
 
-task_t **load_list(char *filename, info_t *info) {
+task_t **load_list(char *filename) {
     FILE *fp = fopen(filename, "r");
 
-    task_t **tasks = malloc(info->size * sizeof(task_t *));
+    task_t **tasks = malloc(size * sizeof(task_t *));
 
     if (fp == NULL)
         return tasks;
 
     char *buf = NULL;
     size_t n = 0;
-    size_t len;
+    size_t len, slen;
 
     int finished;
-
     while ((len = getline(&buf, &n, fp)) != -1) {
+        slen = len - 2;
         sscanf(buf, "%d:%[^\n]", &finished, buf);
-        tasks = list_add(tasks, init_task(buf, len - 2, finished), info);
-        if (len - 2 > info->longest)
-            info->longest = len - 2;
+        tasks = list_add(tasks, init_task(buf, slen, finished));
+        if (slen > longest)
+            longest = slen;
     }
 
     free(buf);
@@ -81,14 +92,12 @@ task_t **load_list(char *filename, info_t *info) {
     return tasks;
 }
 
-void dump_list(char *filename, task_t **tasks, info_t *info) {
+void dump_list(char *filename, task_t **tasks) {
     FILE *fp = fopen(filename, "w");
 
     struct stat st;
 
-    for (int i = 0; i < info->used; i++) {
-        if (tasks[i]->deleted)
-            continue;
+    for (int i = 0; i < used; i++) {
         fprintf(fp, "%d:%s\n", tasks[i]->finished, tasks[i]->text);
     }
 
@@ -100,23 +109,20 @@ void dump_list(char *filename, task_t **tasks, info_t *info) {
     return;
 }
 
-void free_list(task_t **tasks, info_t *info) {
-    for (int i = 0; i < info->used; i++) {
+void free_list(task_t **tasks) {
+    for (int i = 0; i < used; i++) {
         /* free(tasks[i]->text); */
         free(tasks[i]);
     }
 
-    free(info);
     free(tasks);
 
     return;
 }
 
-void print_list(task_t **tasks, info_t *info) {
+void print_list(task_t **tasks) {
     int display = 0;
-    for (int i = 0; i < info->used; i++) {
-        if (tasks[i]->deleted)
-            continue;
+    for (int i = 0; i < used; i++) {
         printf("%3d. %s %s\n", display, finish_s(tasks[i]->finished), tasks[i]->text);
         display++;
     }

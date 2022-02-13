@@ -1,64 +1,63 @@
 #include <ncurses.h>
+#include <string.h>
 
 #include "task.h"
-#include "list.h"
+#include "screen.h"
 
-#define WINSTARTX 1
-#define WINSTARTY 1
+int main(int argc, char *argv[]) {
+    task_t **tasks = load_list(FILENAME);
 
-int main() {
-    int ch;
-    int saved = 0;
-
-    info_t *info = init_info();
-    task_t **tasks = load_list(FILENAME, info);
-    visible = info->used;
-
-    // customize ncurses behavior
     initscr();
     curs_set(0);
-    cbreak();
-    keypad(stdscr, TRUE);
     noecho();
-    print_border();
+    cbreak();
+
+    getmaxyx(stdscr, mrow, mcol);
+    wrow = LWIN_MROW, wcol = LWIN_MCOL;
+    WINDOW *listwin = newwin(wrow, wcol,
+            LWIN_INITY, LWIN_INITX);
+
+    scrollok(listwin, TRUE);
+    box(stdscr, 0, 0);
     refresh();
+    wprintw_list(listwin, tasks);
 
-    // set up list window
-    WINDOW *listwin = newwin(mrow - (WINSTARTY * 2), mcol - (WINSTARTX * 2), WINSTARTY, WINSTARTX);
-    printscr(listwin, saved, tasks, info);
-
-    // set up help window
-
-
-    while ((ch = getch()) != 'q') {
-        saved = 0;
-        switch (ch) {
+    int c;
+    while ((c = getch()) != 'q') {
+        switch (c) {
             case 'j' :
-                move_select(1, tasks, info);
+                wrap_hl(&highlight,  1);
                 break;
             case 'k' :
-                move_select(-1, tasks, info);
+                wrap_hl(&highlight, -1);
+                break;
+            case 'J' :
+                wscrl(listwin,  1);
+                break;
+            case 'K' :
+                wscrl(listwin, 1);
                 break;
             case 'd' :
-                delete_select(tasks, info);
+                tasks = delete_task(tasks, highlight);
+                wrap_hl(&highlight,  0);
                 break;
             case 'a' :
-                tasks = add_select(listwin, tasks, info);
-                break;
-            case 'w' :
-                dump_list(FILENAME, tasks, info);
-                saved = 1;
+                tasks = wadd_prompt(listwin, tasks);
                 break;
             case 10 :
-                finish_task(tasks[aindex]);
+                finish_task(tasks[highlight]);
                 break;
             case KEY_RESIZE :
-                printscr(listwin, saved, tasks, info);
+                resize_screen(listwin);
                 break;
         }
-        printscr(listwin, saved, tasks, info);
+
+        wprintw_list(listwin, tasks);
     }
+
     delwin(listwin);
     endwin();
-    free_list(tasks, info);
+    free_list(tasks);
+
+    return 0;
 }
