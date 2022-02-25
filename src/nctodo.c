@@ -31,12 +31,6 @@ int main(int argc, char *argv[]) {
             case 'k' :
                 wrap_hl(&highlight, -1);
                 break;
-            case 'J' :
-                wscrl(listwin,  1);
-                break;
-            case 'K' :
-                wscrl(listwin, 1);
-                break;
             case 'd' :
                 tasks = delete_task(tasks, highlight);
                 wrap_hl(&highlight,  0);
@@ -45,6 +39,8 @@ int main(int argc, char *argv[]) {
                 tasks = wadd_prompt(listwin, tasks);
                 break;
             case 10 :
+                if (!used)
+                    continue;
                 finish_task(tasks[highlight]);
                 break;
             case KEY_RESIZE :

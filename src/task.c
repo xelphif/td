@@ -36,7 +36,7 @@ task_t **list_add(task_t **tasks, task_t *task) {
 
 task_t **delete_task(task_t **tasks, int remove_index) {
     if (used == 0)
-        return;
+        return tasks;
 
     free(tasks[remove_index]);
 
@@ -55,6 +55,8 @@ task_t **delete_task(task_t **tasks, int remove_index) {
 }
 
 void finish_task(task_t *task) {
+    if (!used)
+        return;
     task->finished ^= 1;
 }
 
