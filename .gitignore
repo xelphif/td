@@ -6,4 +6,4 @@
 bin/
 
 #ignore generated file
-TODO
+*.json

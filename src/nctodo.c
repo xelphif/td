@@ -1,59 +1,29 @@
-#include <ncurses.h>
-#include <string.h>
+#include "array.h"
+#include "item.h"
+#include "serialize.h"
 
-#include "task.h"
-#include "screen.h"
+#include <stdio.h>
 
-int main(int argc, char *argv[]) {
-    task_t **tasks = load_list(FILENAME);
+#define FILENAME "TODO.json"
 
-    initscr();
-    curs_set(0);
-    noecho();
-    cbreak();
+void print_array(array_t *array);
 
-    getmaxyx(stdscr, mrow, mcol);
-    wrow = LWIN_MROW, wcol = LWIN_MCOL;
-    WINDOW *listwin = newwin(wrow, wcol,
-            LWIN_INITY, LWIN_INITX);
+int main() {
+  int mod = 0;
 
-    scrollok(listwin, TRUE);
-    box(stdscr, 0, 0);
-    refresh();
-    wprintw_list(listwin, tasks);
+  array_t *array = init_array();
+  deserialize(FILENAME, array);
 
-    int c;
-    while ((c = getch()) != 'q') {
-        switch (c) {
-            case 'j' :
-                wrap_hl(&highlight,  1);
-                break;
-            case 'k' :
-                wrap_hl(&highlight, -1);
-                break;
-            case 'd' :
-                tasks = delete_task(tasks, highlight);
-                wrap_hl(&highlight,  0);
-                break;
-            case 'a' :
-                tasks = wadd_prompt(listwin, tasks);
-                break;
-            case 10 :
-                if (!used)
-                    continue;
-                finish_task(tasks[highlight]);
-                break;
-            case KEY_RESIZE :
-                resize_screen(listwin);
-                break;
-        }
+  print_array(array);
 
-        wprintw_list(listwin, tasks);
-    }
+  if (array->size && mod)
+    serialize(FILENAME, array);
+}
 
-    delwin(listwin);
-    endwin();
-    free_list(tasks);
-
-    return 0;
+void print_array(array_t *array) {
+  item_t *item;
+  for (int i = 0; i < array->size; i++) {
+    item = a_get(array, i);
+    printf("%d %s\n", item->finished, item->text);
+  }
 }
