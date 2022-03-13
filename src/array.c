@@ -13,6 +13,18 @@ init_array ()
   return a;
 }
 
+void
+a_free (array_t *a)
+{
+  while (a->size)
+    a_delete (a, a->size - 1);
+
+  free (a->items);
+  free (a);
+
+  return;
+}
+
 void *
 a_add (array_t *a, void *value)
 {

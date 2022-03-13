@@ -26,13 +26,13 @@ set_text (item_t *item, const char *text, unsigned len)
   return item;
 }
 
-void
-finish (item_t *item)
+int
+finish_item (item_t *item)
 {
   if (!item)
-    return;
+    return 1;
 
   item->finished ^= 1;
 
-  return;
+  return 0;
 }

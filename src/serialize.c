@@ -19,6 +19,11 @@ init_json_object (item_t *item)
 int
 serialize (char *filename, array_t *array)
 {
+  if (!array->size)
+    {
+      return 1;
+    }
+
   json_object *json_array = json_object_new_array ();
 
   if (!json_array)
@@ -51,7 +56,7 @@ deserialize (char *filename, array_t *array)
       json_object *finished = json_object_object_get (temp, "finished");
 
       a_add (array, init_item (json_object_get_string (text),
-                               json_object_get_string_len (text),
+                               json_object_get_string_len (text) + 1,
                                json_object_get_boolean (finished)));
     }
 

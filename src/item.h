@@ -9,6 +9,6 @@ typedef struct item
 
 item_t *init_item (const char *text, unsigned len, unsigned finished);
 item_t *set_text (item_t *item, const char *text, unsigned len);
-void finish_item (item_t *item);
+int finish_item (item_t *item);
 
 #endif
