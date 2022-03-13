@@ -66,7 +66,7 @@ main (int argc, char *argv[])
         remove (FILENAME);
     }
 
-  a_free (array);
+  a_destroy (array);
 
   return 0;
 }

@@ -14,7 +14,7 @@ init_array ()
 }
 
 void
-a_free (array_t *a)
+a_destroy (array_t *a)
 {
   while (a->size)
     a_delete (a, a->size - 1);

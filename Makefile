@@ -1,4 +1,4 @@
-TARGET   = nctodo
+TARGET   = nctd
 
 CC       = gcc
 CFLAGS   = -Wall
