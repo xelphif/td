@@ -1,7 +1,7 @@
 TARGET   = nctd
 
 CC       = gcc
-CFLAGS   = -Wall
+CFLAGS   = -Wall -I./src
 
 LINKER   = gcc
 LFLAGS   = -Wall -ljson-c
@@ -9,8 +9,9 @@ LFLAGS   = -Wall -ljson-c
 SRCDIR   = src
 OBJDIR   = obj
 BINDIR   = bin
+CMDDIR   = $(SRCDIR)/commands
 
-SOURCES  := $(wildcard $(SRCDIR)/*.c)
+SOURCES  := $(wildcard $(CMDDIR)/*.c) $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 rm       = rm -f

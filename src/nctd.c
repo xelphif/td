@@ -1,88 +1,36 @@
 #include "array.h"
-#include "item.h"
+#include "cmd.h"
 #include "serialize.h"
 
-#include <getopt.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define FILENAME "TODO.json"
-
-void
-print_usage ()
+int main(int argc, const char *argv[])
 {
-  printf ("Usage: [options] [arguments]\n");
-}
+    array_t *array = init_array();
+    deserialize(FILENAME, array);
 
-void print_array (array_t *array);
+    // size_t len;
 
-int
-main (int argc, char *argv[])
-{
-  array_t *array = init_array ();
-  deserialize (FILENAME, array);
+    // TODO: replace getopt with subcommand system
+    //    List of planned subcommands
+    //        add:    1 (optional numerical) argument and one string
+    //        clear:  no arguments
+    //        delete: 1 argument (numerical)
+    //        edit:   1 argument (numerical) and one string
+    //        finish: 1 argument (numerical)
+    //        ls:     no arguments
+    //        sort:   1 argument (string) mode
+    //                OR 1 argument and only one fixed sorting mode
+    //        swap:   2 arguments (numerical)
+    //
+    //        if argv[1] is not one of the subcommands, display
+    //        usage and exit failure
 
-  int opt = 0, mod = 0;
-  size_t len;
+    // a_destroy(array);
 
-  static struct option long_options[]
-      = { { "add", required_argument, 0, 'a' },
-          { "delete", required_argument, 0, 'd' },
-          { "check", required_argument, 0, 'c' },
-          { 0, 0, 0, 0 } };
+    if (argc > 1)
+        return cmd_main(argc - 1, argv + 1, array);
 
-  int option_index = 0;
-  while (
-      (opt = getopt_long (argc, argv, "a:d:c:", long_options, &option_index))
-      != -1)
-    {
-      switch (opt)
-        {
-        case 'a':
-          len = strlen (optarg) + 1;
-          a_add (array, init_item (optarg, len, 0));
-          mod = 1;
-          break;
-        case 'd':
-          a_delete (array, atoi (optarg));
-          mod = 1;
-          break;
-        case 'c':
-          finish_item (a_get (array, atoi (optarg)));
-          mod = 1;
-          break;
-        default:
-          print_usage ();
-          return 1;
-          break;
-        }
-    }
-  print_array (array);
-
-  if (mod)
-    {
-      if (serialize (FILENAME, array))
-        remove (FILENAME);
-    }
-
-  a_destroy (array);
-
-  return 0;
-}
-
-void
-print_array (array_t *array)
-{
-  if (!array)
-    return;
-
-  item_t *item;
-  for (int i = 0; i < array->size; i++)
-    {
-      item = a_get (array, i);
-      printf ("%s %s\n", item->finished ? "[x]" : "[ ]", item->text);
-    }
-
-  return;
+    puts("NCURSES MODE");
+    return 0;
 }

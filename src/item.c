@@ -2,37 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-item_t *
-init_item (const char *text, unsigned len, unsigned finished)
+item_t *init_item(const char *text, unsigned len, unsigned status)
 {
-  unsigned size = sizeof (char) * len;
-  item_t *item = malloc (sizeof (item_t) + size);
-  memcpy (item->text, text, size);
-  item->finished = finished;
+    unsigned size = sizeof(char) * len;
+    item_t *item = malloc(sizeof(item_t) + size);
+    memcpy(item->text, text, size);
+    item->status = status;
 
-  return item;
+    return item;
 }
 
-item_t *
-set_text (item_t *item, const char *text, unsigned len)
+item_t *set_text(item_t *item, const char *text, unsigned len)
 {
-  if (!item)
-    return NULL;
+    if (!item)
+        return NULL;
 
-  unsigned size = sizeof (char) * len;
-  item = realloc (item, sizeof (item_t) + size);
-  memcpy (item->text, text, size);
+    unsigned size = sizeof(char) * len;
+    item = realloc(item, sizeof(item_t) + size);
+    memcpy(item->text, text, size);
 
-  return item;
+    return item;
 }
 
-int
-finish_item (item_t *item)
+int finish_item(item_t *item)
 {
-  if (!item)
-    return 1;
+    if (!item)
+        return 1;
 
-  item->finished ^= 1;
+    item->status ^= 1;
 
-  return 0;
+    return 0;
 }
