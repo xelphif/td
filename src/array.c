@@ -122,5 +122,8 @@ int a_delete(array_t *a, const unsigned index)
 
     a->size--;
 
+    if (a->size <= a->capacity / 2 && a->capacity > DEFAULT_CAPACITY)
+        a->items = realloc(a->items, (a->capacity >>= 1) * sizeof(void *));
+
     return 0;
 }

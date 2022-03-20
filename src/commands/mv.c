@@ -10,7 +10,7 @@ int cmd_mv(int argc, const char **argv, struct array *array)
     int src = strarg(argv[1]);
     int dest = strarg(argv[2]);
 
-    if (src < 0 || dest < 0)
+    if (src == -1 || dest == -1)
         return 1;
 
     int status = a_move(array, dest, src);

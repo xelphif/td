@@ -10,8 +10,11 @@ static void print_array(array_t *array)
 
     for (int i = 0; i < array->size; i++) {
         item_t *item = a_get(array, i);
-        printf("%d. %s %s\n", i, STATUS_S(item), item->text);
+        printf("%2d. %s %s\n", i, STATUS_S(item), item->text);
     }
+
+    printf("ARRAY SIZE: %d\tARRAY CAPACITY: %d\n", array->size,
+           array->capacity);
 }
 
 int cmd_ls(int argc, const char **argv, array_t *array)
