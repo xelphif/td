@@ -5,16 +5,30 @@
 
 #include <stdio.h>
 
-int cmd_finish(int argc, const char **argv, array_t *array)
+static int
+finish_args (int argc, const char **argv, array_t *array)
 {
-    int index;
-    if ((index = strarg(argv[1])) == -1)
-        return 1;
+  for (int i = 0; i < argc; i++)
+    {
+      int index;
+      if ((index = strarg (argv[i])) == -1)
+        continue;
 
-    int status = finish_item(a_get(array, index));
+      finish_item (a_get (array, index));
+    }
 
-    if (!status)
-        serialize(FILENAME, array);
+  return 0;
+}
 
-    return status;
+int
+cmd_finish (int argc, const char **argv, array_t *array)
+{
+  if (argc < 2)
+    return 1;
+
+  finish_args (argc - 1, argv + 1, array);
+
+  serialize (FILENAME, array);
+
+  return 0;
 }

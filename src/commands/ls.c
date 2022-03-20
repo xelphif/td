@@ -3,20 +3,26 @@
 
 #include <stdio.h>
 
-static void print_array(array_t *array)
+static void
+print_array (array_t *array)
 {
-    for (int i = 0; i < array->size; i++) {
-        item_t *item = a_get(array, i);
-        printf("%d. %s %s\n", i, STATUS_S(item), item->text);
+  if (!array->size)
+    puts ("No list found.");
+
+  for (int i = 0; i < array->size; i++)
+    {
+      item_t *item = a_get (array, i);
+      printf ("%d. %s %s\n", i, STATUS_S (item), item->text);
     }
 }
 
-int cmd_ls(int argc, const char **argv, array_t *array)
+int
+cmd_ls (int argc, const char **argv, array_t *array)
 {
-    if (argc > 1)
-        return 1;
+  if (argc > 1)
+    return 1;
 
-    print_array(array);
+  print_array (array);
 
-    return 0;
+  return 0;
 }
