@@ -1,8 +1,9 @@
 #include "array.h"
+
 #include <stdlib.h>
 #include <string.h>
 
-array_t *init_array()
+array_t *init_array(void)
 {
     array_t *a = malloc(sizeof(array_t));
     a->items = calloc(DEFAULT_CAPACITY, sizeof(void *));
@@ -34,7 +35,7 @@ void *a_push(array_t *a, void *value)
 }
 
 /*
-void *a_insert(array_t *a, void *value, const unsigned index)
+void *a_insert(array_t *a, void *value, const unsigned int index)
 {
     if (index == a->size)
         a_push(a, value);
@@ -49,7 +50,7 @@ void *a_insert(array_t *a, void *value, const unsigned index)
 }
 */
 
-static unsigned contains(const unsigned size, const unsigned index)
+static unsigned int contains(const unsigned int size, const unsigned int index)
 {
     if (size >= 0 && index < size)
         return 1;
@@ -57,7 +58,7 @@ static unsigned contains(const unsigned size, const unsigned index)
     return 0;
 }
 
-void *a_get(array_t *a, const unsigned index)
+void *a_get(array_t *a, const unsigned int index)
 {
     if (!contains(a->size, index))
         return INDEX_OUT_OF_BOUNDS;
@@ -65,7 +66,7 @@ void *a_get(array_t *a, const unsigned index)
     return a->items[index];
 }
 
-int a_set(array_t *a, void *value, const unsigned index)
+int a_set(array_t *a, void *value, const unsigned int index)
 {
     if (!contains(a->size, index))
         return 1;
@@ -74,7 +75,7 @@ int a_set(array_t *a, void *value, const unsigned index)
     return 0;
 }
 
-int a_swap(array_t *a, const unsigned x, const unsigned y)
+int a_swap(array_t *a, const unsigned int x, const unsigned int y)
 {
     if (!contains(a->size, x))
         return 1;
@@ -87,7 +88,7 @@ int a_swap(array_t *a, const unsigned x, const unsigned y)
     return 0;
 }
 
-int a_move(array_t *a, const unsigned dest, const unsigned src)
+int a_move(array_t *a, const unsigned int dest, const unsigned int src)
 {
     if (!contains(a->size, dest))
         return 1;
@@ -109,7 +110,7 @@ int a_move(array_t *a, const unsigned dest, const unsigned src)
     return 0;
 }
 
-int a_delete(array_t *a, const unsigned index)
+int a_delete(array_t *a, const unsigned int index)
 {
     if (!contains(a->size, index))
         return 1;

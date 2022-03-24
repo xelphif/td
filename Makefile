@@ -4,7 +4,7 @@ CC       = gcc
 CFLAGS   = -Wall -I./src
 
 LINKER   = gcc
-LFLAGS   = -Wall -ljson-c
+LFLAGS   = -Wall -ljson-c -lncurses
 
 SRCDIR   = src
 OBJDIR   = obj

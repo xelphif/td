@@ -1,5 +1,4 @@
 #include "serialize.h"
-#include "array.h"
 #include "item.h"
 
 #include <json-c/json.h>

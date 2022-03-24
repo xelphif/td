@@ -1,8 +1,6 @@
 #include "cmd.h"
-#include "strarg.h"
 #include "serialize.h"
-
-#include <stdio.h>
+#include "strarg.h"
 
 int cmd_swap(int argc, const char **argv, array_t *array)
 {

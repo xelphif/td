@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-static int fsort(array_t *array)
+int fsort(array_t *array)
 {
     int last = array->size - 1;
     for (int i = last; i >= 0; i--) {

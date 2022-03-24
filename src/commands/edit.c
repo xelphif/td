@@ -1,7 +1,7 @@
 #include "cmd.h"
 #include "item.h"
-#include "strarg.h"
 #include "serialize.h"
+#include "strarg.h"
 
 #include <string.h>
 

@@ -1,8 +1,7 @@
 #include "array.h"
 #include "cmd.h"
+#include "screen.h"
 #include "serialize.h"
-
-#include <stdio.h>
 
 int main(int argc, const char *argv[])
 {
@@ -12,6 +11,5 @@ int main(int argc, const char *argv[])
     if (argc > 1)
         return cmd_main(argc - 1, argv + 1, array);
 
-    puts("NCURSES MODE");
-    return 0;
+    return nc_main(array);
 }
