@@ -37,6 +37,9 @@ static int close_nc(menu_t *menu)
     delwin(menu->win);
     endwin();
 
+    a_destroy(menu->array);
+    free_menu(menu);
+
     return 0;
 }
 
@@ -78,10 +81,10 @@ static void handle_input(menu_t *menu)
                 sort_marray(menu);
                 break;
             case 'g':
-                goto_first(menu);
+                move_mark_i(menu, 0);
                 break;
             case 'G':
-                goto_last(menu);
+                move_mark_i(menu, LAST_ITEM(menu));
                 break;
             case 'w':
                 serialize(FILENAME, menu->array);

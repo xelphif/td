@@ -22,6 +22,8 @@ static struct cmd_struct commands[] = {
     { "swap",   cmd_swap  }
 };
 
+#define HELP_CMD commands + 3
+
 /* functions */
 
 static struct cmd_struct *get_cmd(const char *cmd)
@@ -32,7 +34,7 @@ static struct cmd_struct *get_cmd(const char *cmd)
             return p;
     }
 
-    return NULL;
+    return HELP_CMD;
 }
 
 static int run_cmd(struct cmd_struct *cmd, int argc, const char **argv,

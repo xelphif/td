@@ -52,6 +52,31 @@ static void refresh_menu(menu_t *menu)
     prefresh(menu->win, menu->pos, 0, 0, 0, rows - 1, cols - 1);
 }
 
+static void resize_menu(menu_t *menu)
+{
+    wresize(menu->win, menu->lines + (menu->y * 2) + 1, cols);
+}
+
+static int is_visible(menu_t *menu, int x)
+{
+    if (x > VIS_ITEMS(menu))
+        return 1;
+    if (x < menu->pos)
+        return -1;
+
+    return 0;
+}
+
+static void winchk(menu_t *menu)
+{
+    if (menu->lines != menu->array->capacity) {
+        werase(menu->win);
+        refresh_menu(menu);
+        menu->lines = menu->array->capacity;
+        resize_menu(menu);
+    }
+}
+
 void draw_menu(menu_t *menu)
 {
     for (int i = 0; i < menu->array->size; i++) {
@@ -84,12 +109,19 @@ void move_mark_o(menu_t *menu, int offset)
     if (menu->cur_item <= -1)
         menu->cur_item = 0;
     if (menu->array->size && menu->cur_item >= menu->array->size)
-        menu->cur_item = menu->array->size - 1;
+        menu->cur_item = LAST_ITEM(menu);
 
-    if (menu->cur_item > menu->pos + rows - 1)
-        menu->pos++;
-    if (menu->cur_item < menu->pos)
-        menu->pos--;
+    menu->pos += is_visible(menu, menu->cur_item);
+
+    update_menu(menu);
+}
+
+void move_mark_i(menu_t *menu, int index)
+{
+    menu->cur_item = index;
+
+    if (is_visible(menu, index))
+        menu->pos = index > MAX_POS(menu) ? MAX_POS(menu) : index;
 
     update_menu(menu);
 }
@@ -109,12 +141,7 @@ void toggle_mitem(menu_t *menu)
 void delete_mitem(menu_t *menu)
 {
     a_delete(menu->array, menu->cur_item);
-    if (menu->lines != menu->array->capacity) {
-        werase(menu->win);
-        refresh_menu(menu);
-        menu->lines = menu->array->capacity;
-        wresize(menu->win, menu->lines + (menu->y * 2) + 1, cols);
-    }
+    winchk(menu);
     set_itemyx(menu);
     move_mark_o(menu, -1);
 }
@@ -151,6 +178,8 @@ static int pgetnstr(menu_t *menu, char *buf, int n)
                 wmove(menu->win, y, --x);
                 i--;
             case KEY_DC:
+                if (i == len)
+                    continue;
                 memmove(buf + i, buf + i + 1, sizeof(char) * (len-- - i));
                 wdelch(menu->win);
                 refresh_menu(menu);
@@ -166,7 +195,7 @@ static int pgetnstr(menu_t *menu, char *buf, int n)
 
         if (i < len - 1)
             memmove(buf + i + 1, buf + i, sizeof(char) * len - i);
-
+        ;
         buf[i++] = c;
         len++;
 
@@ -183,11 +212,9 @@ static int pgetnstr(menu_t *menu, char *buf, int n)
 
 void add_prompt(menu_t *menu)
 {
-    int last_pos;
-    if (menu->array->size > menu->pos + rows - 1) {
-        last_pos = menu->pos;
-        menu->pos = menu->array->size - rows + 1;
-    }
+    int last_pos = menu->pos;
+    if (is_visible(menu, menu->array->size))
+        menu->pos = MAX_POS(menu) + 1;
     wmove(menu->win, menu->array->size, menu->x);
 
     waddch(menu->win, '+');
@@ -205,30 +232,26 @@ void add_prompt(menu_t *menu)
     int len;
     if ((len = pgetnstr(menu, buf, 120))) {
         a_push(menu->array, init_item(buf, len, 0));
-        menu->cur_item = menu->array->size - 1;
+        menu->cur_item = LAST_ITEM(menu);
     } else
         menu->pos = last_pos;
 
     curs_set(0);
 
-    if (menu->lines != menu->array->capacity) {
-        menu->lines = menu->array->capacity;
-        wresize(menu->win, menu->lines + (menu->y * 2) + 1, cols);
-    }
-
+    winchk(menu);
     set_itemyx(menu);
     update_menu(menu);
 }
 
 void edit_prompt(menu_t *menu)
 {
-    wmove(menu->win, menu->y + menu->cur_item, menu->x + ITEM_PREFIX);
-
     item_t *item = a_get(menu->array, menu->cur_item);
+    wmove(menu->win, item->y, item->x + ITEM_PREFIX);
+
     for (int i = 0; i < item->len; i++)
         waddch(menu->win, ' ');
 
-    wmove(menu->win, menu->y + menu->cur_item, menu->x + 6);
+    wmove(menu->win, item->y, item->x + ITEM_PREFIX);
 
     refresh_menu(menu);
 
@@ -241,23 +264,6 @@ void edit_prompt(menu_t *menu)
         set_text(item, buf, len);
 
     curs_set(0);
-
-    update_menu(menu);
-}
-
-void goto_first(menu_t *menu)
-{
-    menu->cur_item = 0;
-    menu->pos = 0;
-
-    update_menu(menu);
-}
-
-void goto_last(menu_t *menu)
-{
-    menu->cur_item = menu->array->size - 1;
-    if (menu->array->size - 1 > menu->pos + rows - 1)
-        menu->pos = menu->array->size - rows;
 
     update_menu(menu);
 }
@@ -293,10 +299,10 @@ void handle_resize(menu_t *menu)
 {
     refresh();
     getmaxyx(stdscr, rows, cols);
-    wresize(menu->win, menu->lines + (menu->y * 2) + 1, cols);
-    if (menu->cur_item > menu->pos + rows - 1)
+    resize_menu(menu);
+    if (is_visible(menu, menu->cur_item))
         menu->pos = menu->cur_item;
-    if (menu->pos + rows - 1 > menu->array->size - 1)
-        menu->pos = menu->array->size - rows;
+    if (VIS_ITEMS(menu) > LAST_ITEM(menu))
+        menu->pos = MAX_POS(menu);
     update_menu(menu);
 }
