@@ -5,6 +5,4 @@
 
 int nc_main(array_t *array);
 
-int fsort(array_t *array);
-
 #endif

@@ -9,6 +9,7 @@ item_t *init_item(const char *text, unsigned int len, unsigned int status)
     item_t *item = malloc(sizeof(item_t) + size);
     memcpy(item->text, text, size);
     item->status = status;
+    item->len = len;
 
     return item;
 }
@@ -18,9 +19,10 @@ item_t *set_text(item_t *item, const char *text, unsigned int len)
     if (!item)
         return NULL;
 
-    unsigned size = sizeof(char) * len;
+    unsigned int size = sizeof(char) * len;
     item = realloc(item, sizeof(item_t) + size);
     memcpy(item->text, text, size);
+    item->len = len;
 
     return item;
 }

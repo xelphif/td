@@ -3,6 +3,9 @@
 
 typedef struct item {
     unsigned int status;
+    unsigned int len;
+    int x;
+    int y;
     char text[];
 } item_t;
 
