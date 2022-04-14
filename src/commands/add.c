@@ -4,6 +4,8 @@
 
 #include <string.h>
 
+char *help_add = "help add";
+
 static int add_args(int argc, const char **argv, array_t *array)
 {
     for (int i = 0; i < argc; i++) {

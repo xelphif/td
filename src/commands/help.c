@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-static char *help_msg = "usage: nctd <command> [<args>]\n\n"
+static const char *help_msg = "usage: nctd <command> [<args>]\n\n"
                         "Available subcommands:\n\n"
                         "  add      add an item to the list\n"
                         "  delete   delete an item from the list\n"
@@ -14,13 +14,31 @@ static char *help_msg = "usage: nctd <command> [<args>]\n\n"
                         "  sort     sort the list\n"
                         "  swap     swap two items in the list\n";
 
-static void print_help()
+static int print_help()
 {
-    printf("%s", help_msg);
+    puts(help_msg);
+    return 0;
+}
+
+static int print_cmd_help(const char *cmd) {
+    char *help_str;
+
+    help_str = get_cmd_help(cmd);
+
+    if (help_str) {
+        puts(help_str);
+        return 0;
+    }
+
+    puts("command not found");
+    print_help();
+    return 1;
 }
 
 int cmd_help(int argc, const char **argv, array_t *array)
 {
-    print_help();
-    return 0;
+    if (argc > 1)
+       return print_cmd_help(argv[1]);
+
+    return print_help();
 }
