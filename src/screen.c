@@ -7,16 +7,6 @@
 #include <ncurses.h>
 #include <string.h>
 
-// TODO:
-//  window drawing functions
-//  input functions
-//      add function shows realtime preview
-//      of item in the list (with resizing)
-//  resize functions
-//  string cropping ?
-//  minimum size ?
-//  cleanup function
-
 int rows, cols;
 
 static int init_nc(void)
@@ -41,12 +31,6 @@ static int close_nc(menu_t *menu)
     free_menu(menu);
 
     return 0;
-}
-
-static void print_debug(menu_t *menu)
-{
-    mvwprintw(stdscr, 0, 20, "ROWS:%d COLS:%d POS:%d LAST_VIS:%d CUR_ITEM:%d",
-              rows, cols, menu->pos, menu->pos + rows - 1, menu->cur_item);
 }
 
 static void handle_input(menu_t *menu)
@@ -92,14 +76,7 @@ static void handle_input(menu_t *menu)
             case KEY_RESIZE:
                 handle_resize(menu);
                 break;
-                /* case 'E': */
-                /*     edit_prompt_i(menu); */
-                /*     break; */
-                /* case KEY_RESIZE: */
-                /*     getmaxyx(stdscr, rows, cols); */
-                /*     break; */
         }
-        print_debug(menu);
     }
 }
 

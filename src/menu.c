@@ -3,7 +3,7 @@
 #include "config.h"
 #include "item.h"
 
-#include <curses.h>
+#include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -231,7 +231,7 @@ void add_prompt(menu_t *menu)
 
     int len;
     if ((len = pgetnstr(menu, buf, 120))) {
-        a_push(menu->array, init_item(buf, len, 0));
+        a_push(menu->array, init_item(buf, len + 1, 0));
         menu->cur_item = LAST_ITEM(menu);
     } else
         menu->pos = last_pos;
@@ -261,7 +261,7 @@ void edit_prompt(menu_t *menu)
 
     int len;
     if ((len = pgetnstr(menu, buf, 120)))
-        set_text(item, buf, len);
+        set_text(item, buf, len + 1);
 
     curs_set(0);
 

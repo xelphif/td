@@ -1,5 +1,6 @@
 #include "array.h"
 #include "cmd.h"
+#include "config.h"
 #include "screen.h"
 #include "serialize.h"
 

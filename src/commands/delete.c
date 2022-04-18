@@ -10,10 +10,7 @@
 // delete all by removing the JSON file
 static int delete_all()
 {
-    if (remove(FILENAME))
-        return 1;
-
-    return 0;
+    return !!remove(FILENAME);
 }
 
 static int delete_finished(array_t *array)
