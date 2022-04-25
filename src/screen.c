@@ -31,6 +31,7 @@ static int close_nc(menu_t *menu)
 
     a_destroy(menu->array);
     free_menu(menu);
+    free_conf();
 
     return 0;
 }
