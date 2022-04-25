@@ -1,7 +1,6 @@
 #include "cmd.h"
 #include "item.h"
 #include "serialize.h"
-#include "strarg.h"
 
 #include <stdio.h>
 
@@ -25,7 +24,7 @@ int cmd_finish(int argc, const char **argv, array_t *array)
 
     finish_args(argc - 1, argv + 1, array);
 
-    serialize(FILENAME, array);
+    serialize(array);
 
     return 0;
 }

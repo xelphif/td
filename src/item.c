@@ -1,11 +1,12 @@
 #include "item.h"
+#include "config.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-item_t *init_item(const char *text, unsigned int len, unsigned int status)
+item_t *init_item(const char *text, unsigned len, unsigned status)
 {
-    unsigned int size = sizeof(char) * len;
+    unsigned size = sizeof(char) * len;
     item_t *item = malloc(sizeof(item_t) + size);
     memcpy(item->text, text, size);
     item->status = status;
@@ -14,12 +15,12 @@ item_t *init_item(const char *text, unsigned int len, unsigned int status)
     return item;
 }
 
-item_t *set_text(item_t *item, const char *text, unsigned int len)
+item_t *set_text(item_t *item, const char *text, unsigned len)
 {
     if (!item)
         return NULL;
 
-    unsigned int size = sizeof(char) * len;
+    unsigned size = sizeof(char) * len;
     item = realloc(item, sizeof(item_t) + size);
     memcpy(item->text, text, size);
     item->len = len;

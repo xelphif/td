@@ -1,9 +1,9 @@
 #include "cmd.h"
+#include "config.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
 struct cmd_struct {
     char *cmd;
@@ -24,6 +24,26 @@ static struct cmd_struct commands[] = {
 };
 
 /* functions */
+
+// only returns when input is a valid array index
+// if input is invalid, returns -1
+int strarg(const char *s)
+{
+    errno = 0;
+    char *endptr;
+
+    int val = strtol(s, &endptr, 10);
+
+    if (s == endptr)
+        return -1;
+
+    // check if value is out of range or if
+    // the input was invalid
+    if (errno != 0)
+        return -1;
+
+    return val;
+}
 
 static struct cmd_struct *get_cmd(const char *cmd)
 {
@@ -52,6 +72,7 @@ static int run_cmd(struct cmd_struct *cmd, int argc, const char **argv,
 {
     int status = cmd->fn(argc, argv, array);
     a_destroy(array);
+    free_conf();
     return status;
 }
 

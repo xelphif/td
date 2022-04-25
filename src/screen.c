@@ -4,13 +4,15 @@
 #include "menu.h"
 #include "serialize.h"
 
-#include <ncurses.h>
+#include <locale.h>
 #include <string.h>
 
 int rows, cols;
 
 static int init_nc(void)
 {
+    setlocale(LC_ALL, "");
+
     initscr();
 
     cbreak();
@@ -71,7 +73,7 @@ static void handle_input(menu_t *menu)
                 move_mark_i(menu, LAST_ITEM(menu));
                 break;
             case 'w':
-                serialize(FILENAME, menu->array);
+                serialize(menu->array);
                 break;
             case KEY_RESIZE:
                 handle_resize(menu);
@@ -82,6 +84,8 @@ static void handle_input(menu_t *menu)
 
 int nc_main(array_t *array)
 {
+    setlocale(LC_ALL, "");
+
     init_nc();
 
     menu_t *menu = init_menu(array);

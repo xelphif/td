@@ -1,6 +1,5 @@
 #include "cmd.h"
 #include "serialize.h"
-#include "strarg.h"
 
 int cmd_swap(int argc, const char **argv, array_t *array)
 {
@@ -15,7 +14,7 @@ int cmd_swap(int argc, const char **argv, array_t *array)
 
     int status = a_swap(array, x, y);
 
-    serialize(FILENAME, array);
+    serialize(array);
 
     return status;
 }

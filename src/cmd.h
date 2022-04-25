@@ -14,6 +14,7 @@
 
 int cmd_main(int argc, const char **argv, struct array *array);
 /* int is_cmd(const char *cmd); */
+int strarg(const char *s);
 char *get_cmd_help(const char *cmd);
 
 int cmd_add(int argc, const char **argv, struct array *array);

@@ -3,12 +3,11 @@
 
 #include "array.h"
 
-#include <ncurses.h>
+#include <curses.h>
 
 typedef struct menu {
     int x;
     int y;
-    char mark;
     int cur_item;
     array_t *array;
     WINDOW *win;

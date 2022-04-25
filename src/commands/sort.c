@@ -27,6 +27,6 @@ int cmd_sort(int argc, const char **argv, array_t *array)
 {
     fsort(array);
 
-    serialize(FILENAME, array);
+    serialize(array);
     return 0;
 }

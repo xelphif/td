@@ -23,7 +23,7 @@ int cmd_add(int argc, const char **argv, array_t *array)
 
     add_args(argc - 1, argv + 1, array);
 
-    serialize(FILENAME, array);
+    serialize(array);
 
     return 0;
 }

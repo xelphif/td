@@ -1,16 +1,16 @@
 #include "cmd.h"
+#include "config.h"
 #include "item.h"
 #include "serialize.h"
-#include "strarg.h"
-#include "string.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // delete all by removing the JSON file
 static int delete_all()
 {
-    return !!remove(FILENAME);
+    return !!remove(conf->filename);
 }
 
 static int delete_finished(array_t *array)
@@ -22,8 +22,8 @@ static int delete_finished(array_t *array)
             status = a_delete(array, i--);
     }
 
-    if (serialize(FILENAME, array))
-        remove(FILENAME);
+    if (serialize(array))
+        remove(conf->filename);
 
     return status;
 }
@@ -68,8 +68,8 @@ static int delete_args(int argc, const char **argv, array_t *array)
         last_deleted = valid_args[i];
     }
 
-    if (serialize(FILENAME, array))
-        remove(FILENAME);
+    if (serialize(array))
+        remove(conf->filename);
 
     return 0;
 }
@@ -86,6 +86,4 @@ int cmd_delete(int argc, const char **argv, array_t *array)
         return delete_finished(array);
 
     return delete_args(argc - 1, argv + 1, array);
-
-    return 1;
 }

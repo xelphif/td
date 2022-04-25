@@ -1,7 +1,6 @@
 #include "cmd.h"
 #include "item.h"
 #include "serialize.h"
-#include "strarg.h"
 
 #include <string.h>
 
@@ -23,7 +22,7 @@ int cmd_edit(int argc, const char **argv, array_t *array)
     item = set_text(item, argv[2], len);
     a_set(array, item, index);
 
-    serialize(FILENAME, array);
+    serialize(array);
 
     return 0;
 }

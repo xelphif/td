@@ -1,6 +1,5 @@
 #include "cmd.h"
 #include "serialize.h"
-#include "strarg.h"
 
 int cmd_mv(int argc, const char **argv, struct array *array)
 {
@@ -15,7 +14,7 @@ int cmd_mv(int argc, const char **argv, struct array *array)
 
     int status = a_move(array, dest, src);
 
-    serialize(FILENAME, array);
+    serialize(array);
 
     return status;
 }

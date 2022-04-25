@@ -4,7 +4,7 @@ CC       = gcc
 CFLAGS   = -Wall -I./src
 
 LINKER   = gcc
-LFLAGS   = -Wall -ljson-c -lncurses
+LFLAGS   = -ljson-c -lncurses -ltoml
 
 SRCDIR   = src
 OBJDIR   = obj
@@ -16,6 +16,8 @@ INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 rm       = rm -f
 
+LBIN		 = ${HOME}/.local/bin
+
 $(BINDIR)/$(TARGET): $(OBJECTS)
 	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
 	@echo "Linking complete"
@@ -24,12 +26,19 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "Compiled "$<" successfully"
 
-.PHONY: clean
+.PHONY: debug install clean remove
+debug:
+	@$(CC) $(CFLAGS) -g $(SOURCES) $(LFLAGS) -o $(BINDIR)/test/debug
+	@echo "Compiled debug binary"
+
+install: $(BINDIR)/$(TARGET)
+	@cp $(BINDIR)/$(TARGET) $(LBIN)
+	@echo "Installed binary to $(LBIN)"
+
 clean:
 	@$(rm) $(OBJECTS)
 	@echo "Cleanup complete"
 
-.PHONY: remove
 remove: clean
 	@$(rm) $(BINDIR)/$(TARGET)
 	@echo "Executable removed"

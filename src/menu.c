@@ -1,13 +1,13 @@
+
 #include "menu.h"
 #include "array.h"
 #include "config.h"
 #include "item.h"
 
-#include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MARK(x, y) (y) == (x)->cur_item ? (x)->mark : ' '
+#define MARK(x, y) (y) == (x)->cur_item ? conf->menu_marker : " "
 #define ITEM_PREFIX 6
 
 static void set_itemyx(menu_t *menu)
@@ -27,7 +27,6 @@ menu_t *init_menu(array_t *array)
     menu->x = 0;
     menu->y = 0;
 
-    menu->mark = MENU_MARK;
     menu->cur_item = 0;
 
     menu->array = array;
@@ -84,10 +83,12 @@ void draw_menu(menu_t *menu)
 
         wmove(menu->win, item->y, item->x);
 
-        waddch(menu->win, MARK(menu, i));
+        waddstr(menu->win, MARK(menu, i));
         waddch(menu->win, ' ');
 
+        waddch(menu->win, '[');
         waddnstr(menu->win, STATUS_S(item), 3);
+        waddch(menu->win, ']');
         waddch(menu->win, ' ');
 
         waddnstr(menu->win, item->text, item->len);
