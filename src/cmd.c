@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+
 struct cmd_struct {
     char *cmd;
     int (*fn)(int, const char **, array_t *);

@@ -1,8 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-
 struct config {
     char *filename;
 

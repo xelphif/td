@@ -1,4 +1,3 @@
-
 #include "menu.h"
 #include "array.h"
 #include "config.h"
@@ -8,7 +7,7 @@
 #include <string.h>
 
 #define MARK(x, y) (y) == (x)->cur_item ? conf->menu_marker : " "
-#define ITEM_PREFIX 6
+#define ITEM_PREFIX(x) strlen(conf->menu_marker) + strlen(STATUS_S(x)) + 4
 
 static void set_itemyx(menu_t *menu)
 {
@@ -87,7 +86,7 @@ void draw_menu(menu_t *menu)
         waddch(menu->win, ' ');
 
         waddch(menu->win, '[');
-        waddnstr(menu->win, STATUS_S(item), 3);
+        waddstr(menu->win, STATUS_S(item));
         waddch(menu->win, ']');
         waddch(menu->win, ' ');
 
@@ -247,12 +246,12 @@ void add_prompt(menu_t *menu)
 void edit_prompt(menu_t *menu)
 {
     item_t *item = a_get(menu->array, menu->cur_item);
-    wmove(menu->win, item->y, item->x + ITEM_PREFIX);
+    wmove(menu->win, item->y, item->x + ITEM_PREFIX(item));
 
     for (int i = 0; i < item->len; i++)
         waddch(menu->win, ' ');
 
-    wmove(menu->win, item->y, item->x + ITEM_PREFIX);
+    wmove(menu->win, item->y, item->x + ITEM_PREFIX(item));
 
     refresh_menu(menu);
 
