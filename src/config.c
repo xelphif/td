@@ -15,6 +15,9 @@ static struct config config_defaults = {
     .symbols = {" ", "x"},
 
     .menu_marker = ">",
+
+    .pad_x = 0,
+    .pad_y = 0,
 };
 
 static array_t *str_p;
@@ -80,6 +83,18 @@ int extract_conf(void)
         if (datum.ok) {
             conf->menu_marker = datum.u.s;
             a_push(str_p, datum.u.s);
+        }
+        datum = toml_int_in(tmenu, "pad");
+        if (datum.ok) {
+            conf->pad_x = conf->pad_y = datum.u.i;
+        }
+        datum = toml_int_in(tmenu, "pad_x");
+        if (datum.ok) {
+            conf->pad_x = datum.u.i;
+        }
+        datum = toml_int_in(tmenu, "pad_y");
+        if (datum.ok) {
+            conf->pad_y = datum.u.i;
         }
     }
 

@@ -47,7 +47,8 @@ void free_menu(menu_t *menu)
 
 static void refresh_menu(menu_t *menu)
 {
-    prefresh(menu->win, menu->pos, 0, 0, 0, rows - 1, cols - 1);
+    prefresh(menu->win, menu->pos, 0, conf->pad_y, conf->pad_x,
+             rows - 1 - (conf->pad_y * 2), cols - 1 - (conf->pad_x * 2));
 }
 
 static void resize_menu(menu_t *menu)

@@ -8,8 +8,8 @@ struct config {
 
     char *menu_marker;
 
-    /* unsigned pad_x;
-    unsigned pad_y; */
+    unsigned pad_x;
+    unsigned pad_y;
 };
 
 extern struct config *conf;
