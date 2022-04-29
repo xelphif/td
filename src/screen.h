@@ -1,8 +1,5 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #include "array.h"
 
 int nc_main(array_t *array);
-
-#endif

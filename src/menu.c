@@ -232,7 +232,7 @@ void add_prompt(menu_t *menu)
 
     int len;
     if ((len = pgetnstr(menu, buf, 120))) {
-        a_push(menu->array, init_item(buf, len + 1, 0));
+        a_push(menu->array, init_item(buf, len + 1, false));
         menu->cur_item = LAST_ITEM(menu);
     } else
         menu->pos = last_pos;

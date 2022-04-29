@@ -1,5 +1,4 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#pragma once
 
 #define DEFAULT_CAPACITY 1 << 4
 #define INDEX_OUT_OF_BOUNDS NULL
@@ -18,5 +17,3 @@ int a_set(array_t *a, void *value, const unsigned int index);
 int a_swap(array_t *a, const unsigned int x, const unsigned int y);
 int a_move(array_t *a, const unsigned int dest, const unsigned int src);
 int a_delete(array_t *a, const unsigned int index);
-
-#endif

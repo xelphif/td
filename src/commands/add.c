@@ -10,7 +10,7 @@ static int add_args(int argc, const char **argv, array_t *array)
 {
     for (int i = 0; i < argc; i++) {
         size_t len = strlen(argv[i]) + 1;
-        a_push(array, init_item(argv[i], len, 0));
+        a_push(array, init_item(argv[i], len, false));
     }
 
     return 0;

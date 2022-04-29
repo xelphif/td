@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-item_t *init_item(const char *text, unsigned len, unsigned status)
+item_t *init_item(const char *text, unsigned len, bool status)
 {
     unsigned size = sizeof(char) * len;
     item_t *item = malloc(sizeof(item_t) + size);

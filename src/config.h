@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
 struct config {
     char *filename;
@@ -16,5 +15,3 @@ extern struct config *conf;
 
 int extract_conf(void);
 int free_conf(void);
-
-#endif

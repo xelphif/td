@@ -1,5 +1,4 @@
-#ifndef CMD_H
-#define CMD_H
+#pragma once
 
 #include "array.h"
 
@@ -26,5 +25,3 @@ int cmd_ls(int argc, const char **argv, struct array *array);
 int cmd_mv(int argc, const char **argv, struct array *array);
 int cmd_sort(int argc, const char **argv, struct array *array);
 int cmd_swap(int argc, const char **argv, struct array *array);
-
-#endif

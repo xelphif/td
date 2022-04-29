@@ -52,13 +52,14 @@ static int delete_args(int argc, const char **argv, array_t *array)
         if ((index = strarg(argv[i])) == -1)
             continue;
 
-        valid_args[valid++] = index;
+        if (index >= 0 && index < array->size)
+            valid_args[valid++] = index;
     }
 
-    if (valid) {
-        qsort(valid_args, valid, sizeof(int), cmp);
-    }
+    if (!valid)
+        return 1;
 
+    qsort(valid_args, valid, sizeof(int), cmp);
     int last_deleted = -1;
     for (int i = 0; i < valid; i++) {
         if (valid_args[i] == last_deleted)

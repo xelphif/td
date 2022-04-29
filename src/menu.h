@@ -1,5 +1,4 @@
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
 #include "array.h"
 
@@ -38,5 +37,3 @@ void sort_marray(menu_t *menu);
 void handle_resize(menu_t *menu);
 
 int fsort(array_t *array);
-
-#endif
