@@ -74,7 +74,8 @@ static void handle_input(menu_t *menu)
                 move_mark_i(menu, LAST_ITEM(menu));
                 break;
             case 'w':
-                serialize(menu->array);
+                if (serialize(menu->array))
+                    remove(conf->filename);
                 break;
             case KEY_RESIZE:
                 handle_resize(menu);
