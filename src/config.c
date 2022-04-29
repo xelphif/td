@@ -53,58 +53,54 @@ int extract_conf(void)
 
     char errbuf[200];
 
-    toml_table_t *tconf = toml_parse_file(fp, errbuf, sizeof(errbuf));
+    toml_table_t *tabconf = toml_parse_file(fp, errbuf, sizeof(errbuf));
     fclose(fp);
 
-    if (!tconf) {
+    if (!tabconf) {
         return 1;
     }
 
     str_p = init_array();
     toml_datum_t datum;
 
-    datum = toml_string_in(tconf, "filename");
+    datum = toml_string_in(tabconf, "filename");
     if (datum.ok) {
         conf->filename = datum.u.s;
         a_push(str_p, datum.u.s);
     }
-
-    toml_table_t *tmenu = toml_table_in(tconf, "menu");
-    if (tmenu) {
-        datum = toml_string_in(tmenu, "finished_symbol");
-        if (datum.ok) {
-            conf->symbols[1] = datum.u.s;
-            a_push(str_p, datum.u.s);
-        }
-        datum = toml_string_in(tmenu, "unfinished_symbol");
-        if (datum.ok) {
-            conf->symbols[0] = datum.u.s;
-            a_push(str_p, datum.u.s);
-        }
-        datum = toml_string_in(tmenu, "menu_marker");
-        if (datum.ok) {
-            conf->menu_marker = datum.u.s;
-            a_push(str_p, datum.u.s);
-        }
-        datum = toml_int_in(tmenu, "pad");
-        if (datum.ok) {
-            conf->pad_x = conf->pad_y = datum.u.i;
-        }
-        datum = toml_int_in(tmenu, "pad_x");
-        if (datum.ok) {
-            conf->pad_x = datum.u.i;
-        }
-        datum = toml_int_in(tmenu, "pad_y");
-        if (datum.ok) {
-            conf->pad_y = datum.u.i;
-        }
-        datum = toml_bool_in(tmenu, "center");
-        if (datum.ok) {
-            conf->center = datum.u.b;
-        }
+    datum = toml_string_in(tabconf, "finished_symbol");
+    if (datum.ok) {
+        conf->symbols[1] = datum.u.s;
+        a_push(str_p, datum.u.s);
+    }
+    datum = toml_string_in(tabconf, "unfinished_symbol");
+    if (datum.ok) {
+        conf->symbols[0] = datum.u.s;
+        a_push(str_p, datum.u.s);
+    }
+    datum = toml_string_in(tabconf, "menu_marker");
+    if (datum.ok) {
+        conf->menu_marker = datum.u.s;
+        a_push(str_p, datum.u.s);
+    }
+    datum = toml_int_in(tabconf, "pad");
+    if (datum.ok) {
+        conf->pad_x = conf->pad_y = datum.u.i;
+    }
+    datum = toml_int_in(tabconf, "pad_x");
+    if (datum.ok) {
+        conf->pad_x = datum.u.i;
+    }
+    datum = toml_int_in(tabconf, "pad_y");
+    if (datum.ok) {
+        conf->pad_y = datum.u.i;
+    }
+    datum = toml_bool_in(tabconf, "center");
+    if (datum.ok) {
+        conf->center = datum.u.b;
     }
 
-    toml_free(tconf);
+    toml_free(tabconf);
 
     return 0;
 }
