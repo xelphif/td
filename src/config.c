@@ -18,6 +18,8 @@ static struct config config_defaults = {
 
     .pad_x = 0,
     .pad_y = 0,
+
+    .center = false,
 };
 
 static array_t *str_p;
@@ -95,6 +97,10 @@ int extract_conf(void)
         datum = toml_int_in(tmenu, "pad_y");
         if (datum.ok) {
             conf->pad_y = datum.u.i;
+        }
+        datum = toml_bool_in(tmenu, "center");
+        if (datum.ok) {
+            conf->center = datum.u.b;
         }
     }
 

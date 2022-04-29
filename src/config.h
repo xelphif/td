@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 struct config {
     char *filename;
 
@@ -9,6 +11,8 @@ struct config {
 
     unsigned pad_x;
     unsigned pad_y;
+
+    bool center;
 };
 
 extern struct config *conf;

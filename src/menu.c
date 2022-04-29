@@ -8,6 +8,7 @@
 
 #define MARK(x, y) (y) == (x)->cur_item ? conf->menu_marker : " "
 #define ITEM_PREFIX(x) strlen(conf->menu_marker) + strlen(STATUS_S(x)) + 4
+#define CENTER_X(x) ((cols - (conf->pad_x * 2)) - get_longest_item((x))) / 2
 
 static void set_itemyx(menu_t *menu)
 {
@@ -19,16 +20,31 @@ static void set_itemyx(menu_t *menu)
     }
 }
 
+static int get_longest_item(array_t *array)
+{
+    int longest = 0;
+    for (int i = 0; i < array->size; i++) {
+        item_t *item = a_get(array, i);
+        if (item->len > longest)
+            longest = item->len;
+    }
+
+    return longest;
+}
+
 menu_t *init_menu(array_t *array)
 {
     menu_t *menu = malloc(sizeof(menu_t));
 
-    menu->x = 0;
+    menu->array = array;
+
+    if (conf->center)
+        menu->x = CENTER_X(menu->array);
+    else
+        menu->x = 0;
     menu->y = 0;
 
     menu->cur_item = 0;
-
-    menu->array = array;
 
     set_itemyx(menu);
 
@@ -305,5 +321,9 @@ void handle_resize(menu_t *menu)
         menu->pos = menu->cur_item;
     if (VIS_ITEMS(menu) > LAST_ITEM(menu))
         menu->pos = MAX_POS(menu);
+    if (conf->center) {
+        menu->x = CENTER_X(menu->array);
+        set_itemyx(menu);
+    }
     update_menu(menu);
 }
