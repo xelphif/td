@@ -1,10 +1,10 @@
-TARGET   = nctd
+TARGET   = td
 
 CC       = gcc
 CFLAGS   = -Wall -I./src
 
 LINKER   = gcc
-LFLAGS   = -ljson-c -lncurses -ltoml
+LFLAGS   = -ljson-c
 
 SRCDIR   = src
 OBJDIR   = obj

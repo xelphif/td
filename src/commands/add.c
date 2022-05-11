@@ -1,10 +1,9 @@
 #include "cmd.h"
-#include "item.h"
-#include "serialize.h"
 
 #include <string.h>
 
-char *help_add = "help add";
+#include "item.h"
+#include "serialize.h"
 
 static int add_args(int argc, const char **argv, array_t *array)
 {

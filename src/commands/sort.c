@@ -1,8 +1,9 @@
 #include "cmd.h"
-#include "item.h"
-#include "serialize.h"
 
 #include <stdio.h>
+
+#include "item.h"
+#include "serialize.h"
 
 int fsort(array_t *array)
 {

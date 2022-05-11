@@ -1,8 +1,9 @@
 #include "cmd.h"
-#include "item.h"
-#include "serialize.h"
 
 #include <stdio.h>
+
+#include "item.h"
+#include "serialize.h"
 
 static int finish_args(int argc, const char **argv, array_t *array)
 {

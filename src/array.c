@@ -52,10 +52,7 @@ void *a_insert(array_t *a, void *value, const unsigned int index)
 
 static unsigned int contains(const unsigned int size, const unsigned int index)
 {
-    if (size >= 0 && index < size)
-        return 1;
-
-    return 0;
+    return size >= 0 && index < size;
 }
 
 void *a_get(array_t *a, const unsigned int index)

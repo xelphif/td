@@ -1,4 +1,5 @@
 #include "cmd.h"
+
 #include "serialize.h"
 
 int cmd_swap(int argc, const char **argv, array_t *array)

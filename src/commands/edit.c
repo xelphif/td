@@ -1,8 +1,9 @@
 #include "cmd.h"
-#include "item.h"
-#include "serialize.h"
 
 #include <string.h>
+
+#include "item.h"
+#include "serialize.h"
 
 int cmd_edit(int argc, const char **argv, array_t *array)
 {

@@ -1,5 +1,4 @@
 #include "cmd.h"
-#include "config.h"
 
 #include <errno.h>
 #include <stdlib.h>
@@ -10,19 +9,18 @@
 struct cmd_struct {
     char *cmd;
     int (*fn)(int, const char **, array_t *);
-    char *cmd_help;
 };
 
 static struct cmd_struct commands[] = {
-    {"add",     cmd_add,    HELP_ADD   },
-    { "delete", cmd_delete, HELP_DELETE},
-    { "edit",   cmd_edit,   HELP_EDIT  },
-    { "help",   cmd_help,   NULL       },
-    { "finish", cmd_finish, HELP_FINISH},
-    { "ls",     cmd_ls,     HELP_LS    },
-    { "mv",     cmd_mv,     HELP_MV    },
-    { "sort",   cmd_sort,   HELP_SORT  },
-    { "swap",   cmd_swap,   HELP_SWAP  }
+    {"add",     cmd_add   },
+    { "delete", cmd_delete},
+    { "edit",   cmd_edit  },
+    { "help",   cmd_help  },
+    { "finish", cmd_finish},
+    { "ls",     cmd_ls    },
+    { "mv",     cmd_mv    },
+    { "sort",   cmd_sort  },
+    { "swap",   cmd_swap  }
 };
 
 /* functions */
@@ -58,23 +56,11 @@ static struct cmd_struct *get_cmd(const char *cmd)
     return NULL;
 }
 
-char *get_cmd_help(const char *cmd)
-{
-    struct cmd_struct *cmdp;
-
-    cmdp = get_cmd(cmd);
-    if (cmdp)
-        return cmdp->cmd_help;
-
-    return NULL;
-}
-
 static int run_cmd(struct cmd_struct *cmd, int argc, const char **argv,
                    array_t *array)
 {
     int status = cmd->fn(argc, argv, array);
     a_destroy(array);
-    free_conf();
     return status;
 }
 
@@ -92,11 +78,6 @@ static void handle_cmd(int argc, const char **argv, array_t *array)
     if (cmdp)
         exit(run_cmd(cmdp, argc, argv, array));
 }
-
-/* int is_cmd(const char *cmd) */
-/* { */
-/*     return !!get_cmd(cmd); */
-/* } */
 
 int cmd_main(int argc, const char **argv, array_t *array)
 {

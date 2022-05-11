@@ -1,8 +1,9 @@
 #include "item.h"
-#include "config.h"
 
 #include <stdlib.h>
 #include <string.h>
+
+char symbols[2] = { ' ', 'x' };
 
 item_t *init_item(const char *text, unsigned len, bool status)
 {

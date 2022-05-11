@@ -1,4 +1,5 @@
 #include "cmd.h"
+
 #include "serialize.h"
 
 int cmd_mv(int argc, const char **argv, struct array *array)

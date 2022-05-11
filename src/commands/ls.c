@@ -1,8 +1,8 @@
 #include "cmd.h"
-#include "config.h"
-#include "item.h"
 
 #include <stdio.h>
+
+#include "item.h"
 
 static int print_array(array_t *array)
 {
@@ -13,7 +13,7 @@ static int print_array(array_t *array)
 
     for (int i = 0; i < array->size; i++) {
         item_t *item = a_get(array, i);
-        printf("%2d. [%s] %s\n", i, STATUS_S(item), item->text);
+        printf("%2d. [%c] %s\n", i, STATUS_S(item), item->text);
     }
 
     return 0;

@@ -1,8 +1,10 @@
 #include "serialize.h"
-#include "config.h"
-#include "item.h"
 
 #include <json-c/json.h>
+
+#include "item.h"
+
+char *filename = ".todo.json";
 
 static json_object *init_json_object(item_t *item)
 {
@@ -28,8 +30,7 @@ int serialize(array_t *array)
     for (int i = 0; i < array->size; i++)
         json_object_array_add(json_array, init_json_object(array->items[i]));
 
-    json_object_to_file_ext(conf->filename, json_array,
-                            JSON_C_TO_STRING_PRETTY);
+    json_object_to_file_ext(filename, json_array, JSON_C_TO_STRING_PRETTY);
     json_object_put(json_array);
 
     return 0;
@@ -37,7 +38,7 @@ int serialize(array_t *array)
 
 int deserialize(array_t *array)
 {
-    json_object *json_array = json_object_from_file(conf->filename);
+    json_object *json_array = json_object_from_file(filename);
 
     if (!json_array)
         return 1;
