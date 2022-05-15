@@ -11,6 +11,8 @@ OBJDIR   = obj
 BINDIR   = bin
 CMDDIR   = $(SRCDIR)/commands
 
+BINDEBUG = $(BINDIR)/test/debug
+
 SOURCES  := $(wildcard $(CMDDIR)/*.c) $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
@@ -19,7 +21,7 @@ rm       = rm -f
 LBIN		 = ${HOME}/.local/bin
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
-	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -s -o $@
 	@echo "Linking complete"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
@@ -28,7 +30,7 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 .PHONY: debug install clean remove
 debug:
-	@$(CC) $(CFLAGS) -g $(SOURCES) $(LFLAGS) -o $(BINDIR)/test/debug
+	@$(CC) $(CFLAGS) -g $(SOURCES) $(LFLAGS) -o $(BINDEBUG)
 	@echo "Compiled debug binary"
 
 install: $(BINDIR)/$(TARGET)
@@ -41,4 +43,5 @@ clean:
 
 remove: clean
 	@$(rm) $(BINDIR)/$(TARGET)
-	@echo "Executable removed"
+	@$(rm) $(BINDEBUG)
+	@echo "Executables removed"

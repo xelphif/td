@@ -1,11 +1,9 @@
 #include "cmd.h"
 
-#include <stdio.h>
-
 #include "item.h"
 #include "serialize.h"
 
-int fsort(array_t *array)
+static int fsort(array_t *array)
 {
     int last = array->size - 1;
     for (int i = last; i >= 0; i--) {

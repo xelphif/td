@@ -1,15 +1,15 @@
 #include "cmd.h"
 
-#include <string.h>
-
 #include "item.h"
+#include "log.h"
 #include "serialize.h"
+
+#include <stdio.h>
 
 static int add_args(int argc, const char **argv, array_t *array)
 {
     for (int i = 0; i < argc; i++) {
-        size_t len = strlen(argv[i]) + 1;
-        a_push(array, init_item(argv[i], len, false));
+        a_push(array, item_init(argv[i], false));
     }
 
     return 0;
@@ -17,8 +17,10 @@ static int add_args(int argc, const char **argv, array_t *array)
 
 int cmd_add(int argc, const char **argv, array_t *array)
 {
-    if (argc < 2)
+    if (argc < 2) {
+        LOG_ERR(NOT_ENOUGH_ARGS);
         return 1;
+    }
 
     add_args(argc - 1, argv + 1, array);
 

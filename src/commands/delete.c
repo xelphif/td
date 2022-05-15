@@ -1,17 +1,11 @@
 #include "cmd.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "item.h"
+#include "log.h"
 #include "serialize.h"
-
-// delete all by removing the JSON file
-static int delete_all()
-{
-    return !!remove(filename);
-}
 
 static int delete_finished(array_t *array)
 {
@@ -22,8 +16,7 @@ static int delete_finished(array_t *array)
             status = a_delete(array, i--);
     }
 
-    if (serialize(array))
-        remove(filename);
+    serialize(array);
 
     return status;
 }
@@ -56,8 +49,10 @@ static int delete_args(int argc, const char **argv, array_t *array)
             valid_args[valid++] = index;
     }
 
-    if (!valid)
+    if (!valid) {
+        LOG_ERR("No valid arguments found, aborting.")
         return 1;
+    }
 
     // sort all valid indexes in descending order
     qsort(valid_args, valid, sizeof(int), cmp);
@@ -71,19 +66,20 @@ static int delete_args(int argc, const char **argv, array_t *array)
         last_deleted = valid_args[i];
     }
 
-    if (serialize(array))
-        remove(filename);
+    serialize(array);
 
     return 0;
 }
 
 int cmd_delete(int argc, const char **argv, array_t *array)
 {
-    if (argc < 2)
+    if (argc < 2) {
+        LOG_ERR(NOT_ENOUGH_ARGS);
         return 1;
+    }
 
     if (!strcmp(argv[1], "all"))
-        return delete_all();
+        return file_delete();
 
     if (!strcmp(argv[1], "finished"))
         return delete_finished(array);

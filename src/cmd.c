@@ -5,6 +5,7 @@
 #include <string.h>
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+#define DEFAULT_CMD "ls"
 
 struct cmd_struct {
     char *cmd;
@@ -64,10 +65,13 @@ static int run_cmd(struct cmd_struct *cmd, int argc, const char **argv,
     return status;
 }
 
-static void handle_cmd(int argc, const char **argv, array_t *array)
+int handle_cmd(int argc, const char **argv, array_t *array)
 {
     struct cmd_struct *cmdp;
     const char *cmd = argv[0];
+
+    if (!cmd)
+        cmd = DEFAULT_CMD;
 
     if (argc > 1 && !strcmp(argv[1], "--help")) {
         argv[1] = argv[0];
@@ -77,11 +81,6 @@ static void handle_cmd(int argc, const char **argv, array_t *array)
     cmdp = get_cmd(cmd);
     if (cmdp)
         exit(run_cmd(cmdp, argc, argv, array));
-}
-
-int cmd_main(int argc, const char **argv, array_t *array)
-{
-    handle_cmd(argc, argv, array);
 
     return 1;
 }

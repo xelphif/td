@@ -10,3 +10,4 @@ bin/
 
 # ignore clang format config
 .clang-format
+compile_flags.txt

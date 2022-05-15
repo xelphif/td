@@ -5,23 +5,27 @@
 
 char symbols[2] = { ' ', 'x' };
 
-item_t *init_item(const char *text, unsigned len, bool status)
+item_t *item_init(const char *text, bool status)
 {
-    unsigned size = sizeof(char) * len;
+    size_t len  = strlen(text) + 1;
+    size_t size = sizeof(char) * len;
+
     item_t *item = malloc(sizeof(item_t) + size);
     memcpy(item->text, text, size);
     item->status = status;
-    item->len = len;
+    item->len    = len;
 
     return item;
 }
 
-item_t *set_text(item_t *item, const char *text, unsigned len)
+item_t *item_set_text(item_t *item, const char *text)
 {
     if (!item)
         return NULL;
 
-    unsigned size = sizeof(char) * len;
+    size_t len  = strlen(text) + 1;
+    size_t size = sizeof(char) * len;
+
     item = realloc(item, sizeof(item_t) + size);
     memcpy(item->text, text, size);
     item->len = len;
@@ -29,7 +33,7 @@ item_t *set_text(item_t *item, const char *text, unsigned len)
     return item;
 }
 
-int finish_item(item_t *item)
+int item_finish(item_t *item)
 {
     if (!item)
         return 1;

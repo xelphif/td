@@ -14,13 +14,8 @@ static const char *help_msg = "usage: nctd <command> [<args>]\n\n"
                               "  sort     sort the list\n"
                               "  swap     swap two items in the list\n";
 
-static int print_help()
+int cmd_help(int argc, const char **argv, array_t *array)
 {
     puts(help_msg);
     return 0;
-}
-
-int cmd_help(int argc, const char **argv, array_t *array)
-{
-    return print_help();
 }

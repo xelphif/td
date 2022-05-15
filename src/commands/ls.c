@@ -3,11 +3,12 @@
 #include <stdio.h>
 
 #include "item.h"
+#include "log.h"
 
 static int print_array(array_t *array)
 {
     if (!array->size) {
-        fprintf(stderr, "No list found.\n");
+        LOG_WARN("No list found.");
         return 1;
     }
 
@@ -21,8 +22,5 @@ static int print_array(array_t *array)
 
 int cmd_ls(int argc, const char **argv, array_t *array)
 {
-    if (argc > 1)
-        return 1;
-
     return print_array(array);
 }

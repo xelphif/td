@@ -3,12 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-array_t *init_array(void)
+#define DEFAULT_CAPACITY 1 << 4
+#define INDEX_OUT_OF_BOUNDS NULL
+
+array_t *a_init(void)
 {
-    array_t *a = malloc(sizeof(array_t));
-    a->items = calloc(DEFAULT_CAPACITY, sizeof(void *));
+    array_t *a  = malloc(sizeof(array_t));
+    a->items    = calloc(DEFAULT_CAPACITY, sizeof(void *));
     a->capacity = DEFAULT_CAPACITY;
-    a->size = 0;
+    a->size     = 0;
 
     return a;
 }
@@ -50,7 +53,7 @@ void *a_insert(array_t *a, void *value, const unsigned int index)
 }
 */
 
-static unsigned int contains(const unsigned int size, const unsigned int index)
+static int contains(const size_t size, const unsigned int index)
 {
     return size >= 0 && index < size;
 }
@@ -79,7 +82,7 @@ int a_swap(array_t *a, const unsigned int x, const unsigned int y)
     if (!contains(a->size, y))
         return 1;
 
-    void *temp = a->items[x];
+    void *temp  = a->items[x];
     a->items[x] = a->items[y];
     a->items[y] = temp;
     return 0;
@@ -120,7 +123,7 @@ int a_delete(array_t *a, const unsigned int index)
 
     a->size--;
 
-    if (a->size <= a->capacity / 2 && a->capacity > DEFAULT_CAPACITY)
+    if (a->capacity > DEFAULT_CAPACITY && a->size <= a->capacity / 2)
         a->items = realloc(a->items, (a->capacity >>= 1) * sizeof(void *));
 
     return 0;

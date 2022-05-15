@@ -2,7 +2,7 @@
 
 #include "array.h"
 
-int cmd_main(int argc, const char **argv, struct array *array);
+int handle_cmd(int argc, const char **argv, struct array *array);
 int strarg(const char *s);
 char *get_cmd_help(const char *cmd);
 
