@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "log.h"
+
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define DEFAULT_CMD "ls"
 
@@ -82,5 +84,6 @@ int handle_cmd(int argc, const char **argv, array_t *array)
     if (cmdp)
         exit(run_cmd(cmdp, argc, argv, array));
 
+    LOG_ERR("command not found");
     return 1;
 }

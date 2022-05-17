@@ -10,7 +10,7 @@
 int main(int argc, const char *argv[])
 {
     if (getuid() == 0) {
-        LOG_ERR("Do not run this program as root.");
+        LOG_ERR("do not run as root");
         return 1;
     }
 

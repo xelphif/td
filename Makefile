@@ -11,7 +11,7 @@ OBJDIR   = obj
 BINDIR   = bin
 CMDDIR   = $(SRCDIR)/commands
 
-BINDEBUG = $(BINDIR)/test/debug
+BINDEBUG = $(BINDIR)/debug
 
 SOURCES  := $(wildcard $(CMDDIR)/*.c) $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
@@ -25,12 +25,12 @@ $(BINDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking complete"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -O2 -c $< -o $@
 	@echo "Compiled "$<" successfully"
 
 .PHONY: debug install clean remove
 debug:
-	@$(CC) $(CFLAGS) -g $(SOURCES) $(LFLAGS) -o $(BINDEBUG)
+	@$(CC) $(CFLAGS) -O0 -g $(SOURCES) $(LFLAGS) -o $(BINDEBUG)
 	@echo "Compiled debug binary"
 
 install: $(BINDIR)/$(TARGET)

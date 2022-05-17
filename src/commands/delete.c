@@ -9,7 +9,7 @@
 
 static int delete_finished(array_t *array)
 {
-    int status;
+    int status = 0;
     for (int i = 0; i < array->size; i++) {
         item_t *item = a_get(array, i);
         if (item->status)
@@ -50,7 +50,7 @@ static int delete_args(int argc, const char **argv, array_t *array)
     }
 
     if (!valid) {
-        LOG_ERR("No valid arguments found, aborting.")
+        LOG_ERR("no valid arguments found, aborting")
         return 1;
     }
 

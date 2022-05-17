@@ -8,7 +8,7 @@
 static int print_array(array_t *array)
 {
     if (!array->size) {
-        LOG_WARN("No list found.");
+        LOG_WARN("no list found");
         return 1;
     }
 
