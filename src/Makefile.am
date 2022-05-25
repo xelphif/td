@@ -1,4 +1,6 @@
-AM_CPPFLAGS = -I.
+## Process this file with automake to produce Makefile.in
+
+AM_CFLAGS = -I.
 AM_LDFLAGS = -ljson-c -Wall -Werror
 
 bin_PROGRAMS = td

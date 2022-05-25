@@ -1,5 +1,7 @@
 *.o
 *.json
+*.log
+*.trs
 .clang-format
 aclocal.m4
 compile*
@@ -10,6 +12,8 @@ Makefile.in
 Makefile
 missing
 td
+check_array
+test-driver
 autom4te.cache/
 .deps/
 .dirstamp
