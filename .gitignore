@@ -2,10 +2,12 @@
 *.json
 *.log
 *.trs
+*~
 .clang-format
 aclocal.m4
 compile*
-config*
+config.*
+configure
 depcomp
 install-sh
 Makefile.in
