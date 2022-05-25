@@ -1,13 +1,15 @@
-# ignore object files
-/obj
 *.o
-
-#ignore binaries
-bin/
-
-#ignore generated file
 *.json
-
-# ignore clang format config
 .clang-format
-compile_flags.txt
+aclocal.m4
+compile*
+config*
+depcomp
+install-sh
+Makefile.in
+Makefile
+missing
+td
+autom4te.cache/
+.deps/
+.dirstamp
