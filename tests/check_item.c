@@ -1,7 +1,6 @@
-#include "item.h"
+#include "item.c"
 
 #include <check.h>
-#include <stdlib.h>
 
 item_t *item;
 

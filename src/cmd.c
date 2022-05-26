@@ -59,14 +59,6 @@ static struct cmd_struct *get_cmd(const char *cmd)
     return NULL;
 }
 
-static int run_cmd(struct cmd_struct *cmd, int argc, const char **argv,
-                   array_t *array)
-{
-    int status = cmd->fn(argc, argv, array);
-    a_destroy(array);
-    return status;
-}
-
 int handle_cmd(int argc, const char **argv, array_t *array)
 {
     struct cmd_struct *cmdp;
@@ -82,7 +74,7 @@ int handle_cmd(int argc, const char **argv, array_t *array)
 
     cmdp = get_cmd(cmd);
     if (cmdp)
-        exit(run_cmd(cmdp, argc, argv, array));
+        return cmdp->fn(argc, argv, array);
 
     LOG_ERR("command not found");
     return 1;

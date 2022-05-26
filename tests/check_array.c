@@ -1,7 +1,6 @@
-#include "array.h"
+#include "array.c"
 
 #include <check.h>
-#include <stdlib.h>
 
 array_t *a;
 

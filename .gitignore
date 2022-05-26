@@ -16,6 +16,7 @@ missing
 td
 check_array
 check_item
+check_cmd
 test-driver
 autom4te.cache/
 .deps/
