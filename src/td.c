@@ -1,8 +1,7 @@
-#include "array.h"
-
 #include <stdio.h>
 #include <unistd.h>
 
+#include "array.h"
 #include "cmd.h"
 #include "log.h"
 #include "serialize.h"

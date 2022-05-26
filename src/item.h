@@ -14,5 +14,5 @@ extern char symbols[2];
 #define STATUS_S(x) symbols[(x)->status]
 
 item_t *item_init(const char *text, bool status);
-item_t *item_set_text(item_t *item, const char *text);
+int item_set_text(item_t **item_ref, const char *text);
 int item_finish(item_t *item);

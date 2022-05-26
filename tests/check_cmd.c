@@ -3,49 +3,49 @@
 #include <check.h>
 
 /* stubs */
-int cmd_finish(int argc, const char **argv, struct array *array)
+int cmd_finish(int argc, const char **argv, array_t *array)
 {
     return -1;
 }
 
-int cmd_help(int argc, const char **argv, struct array *array)
+int cmd_help(int argc, const char **argv, array_t *array)
 {
     return -1;
 }
 
-int cmd_mv(int argc, const char **argv, struct array *array)
+int cmd_mv(int argc, const char **argv, array_t *array)
 {
     return -1;
 }
 
-int cmd_sort(int argc, const char **argv, struct array *array)
+int cmd_sort(int argc, const char **argv, array_t *array)
 {
     return -1;
 }
 
 enum cmd_return { ADD, ERR, RM, EDIT, LS, SWAP };
 
-int cmd_add(int argc, const char **argv, struct array *array)
+int cmd_add(int argc, const char **argv, array_t *array)
 {
     return ADD;
 }
 
-int cmd_rm(int argc, const char **argv, struct array *array)
+int cmd_rm(int argc, const char **argv, array_t *array)
 {
     return RM;
 }
 
-int cmd_edit(int argc, const char **argv, struct array *array)
+int cmd_edit(int argc, const char **argv, array_t *array)
 {
     return EDIT;
 }
 
-int cmd_ls(int argc, const char **argv, struct array *array)
+int cmd_ls(int argc, const char **argv, array_t *array)
 {
     return LS;
 }
 
-int cmd_swap(int argc, const char **argv, struct array *array)
+int cmd_swap(int argc, const char **argv, array_t *array)
 {
     return SWAP;
 }
@@ -83,8 +83,6 @@ END_TEST
 
 START_TEST(test_cmd_handle)
 {
-    array_t *array = NULL;
-
     int argc = 1;
 
     const char *argv_add[]     = { "add", NULL };
@@ -95,13 +93,13 @@ START_TEST(test_cmd_handle)
     const char *argv_default[] = { NULL };
     const char *argv_err[]     = { "notacommand", NULL };
 
-    ck_assert_int_eq(handle_cmd(argc, argv_add, array), ADD);
-    ck_assert_int_eq(handle_cmd(argc, argv_rm, array), RM);
-    ck_assert_int_eq(handle_cmd(argc, argv_edit, array), EDIT);
-    ck_assert_int_eq(handle_cmd(argc, argv_ls, array), LS);
-    ck_assert_int_eq(handle_cmd(argc, argv_swap, array), SWAP);
-    ck_assert_int_eq(handle_cmd(argc, argv_default, array), LS);
-    ck_assert_int_eq(handle_cmd(argc, argv_err, array), ERR);
+    ck_assert_int_eq(handle_cmd(argc, argv_add, (array_t *)NULL), ADD);
+    ck_assert_int_eq(handle_cmd(argc, argv_rm, (array_t *)NULL), RM);
+    ck_assert_int_eq(handle_cmd(argc, argv_edit, (array_t *)NULL), EDIT);
+    ck_assert_int_eq(handle_cmd(argc, argv_ls, (array_t *)NULL), LS);
+    ck_assert_int_eq(handle_cmd(argc, argv_swap, (array_t *)NULL), SWAP);
+    ck_assert_int_eq(handle_cmd(argc, argv_default, (array_t *)NULL), LS);
+    ck_assert_int_eq(handle_cmd(argc, argv_err, (array_t *)NULL), ERR);
 }
 END_TEST
 

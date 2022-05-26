@@ -19,12 +19,11 @@ int cmd_edit(int argc, const char **argv, array_t *array)
 
     item_t *item = a_get(array, index);
 
-    if (!item) {
+    if (item_set_text(&item, argv[2])) {
         LOG_ERR(INVALID_ARG);
         return 1;
     }
 
-    item = item_set_text(item, argv[2]);
     a_set(array, item, index);
 
     serialize(array);

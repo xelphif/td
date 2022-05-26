@@ -14,10 +14,13 @@ END_TEST
 
 START_TEST(test_item_set_text)
 {
-    item = item_set_text(item, "new text");
+    item_set_text(&item, "new text");
 
     ck_assert_str_eq(item->text, "new text");
     ck_assert_uint_eq(item->len, 9);
+
+    item_t *null_item = NULL;
+    ck_assert_int_eq(item_set_text(&null_item, "text"), 1);
 }
 END_TEST
 

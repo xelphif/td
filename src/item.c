@@ -18,19 +18,19 @@ item_t *item_init(const char *text, bool status)
     return item;
 }
 
-item_t *item_set_text(item_t *item, const char *text)
+int item_set_text(item_t **item_ref, const char *text)
 {
-    if (!item)
-        return NULL;
+    if (!*item_ref)
+        return 1;
 
     size_t len  = strlen(text) + 1;
     size_t size = sizeof(char) * len;
 
-    item = realloc(item, sizeof(item_t) + size);
-    memcpy(item->text, text, size);
-    item->len = len;
+    *item_ref = realloc(*item_ref, sizeof(item_t) + size);
+    memcpy((*item_ref)->text, text, size);
+    (*item_ref)->len = len;
 
-    return item;
+    return 0;
 }
 
 int item_finish(item_t *item)
