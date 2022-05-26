@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-AM_CFLAGS = -I.
+AM_CFLAGS = -I$(top_builddir)/src
 AM_LDFLAGS = -ljson-c -Wall -Werror
 
 bin_PROGRAMS = td
@@ -12,7 +12,7 @@ td_SOURCES =\
 	   	serialize.c\
 	   	td.c\
 	   	commands/add.c\
-	   	commands/delete.c\
+	   	commands/rm.c\
 	   	commands/edit.c\
 	   	commands/finish.c\
 	   	commands/help.c\

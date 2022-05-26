@@ -5,7 +5,7 @@
 static const char *help_msg = "usage: nctd <command> [<args>]\n\n"
                               "Available subcommands:\n\n"
                               "  add      add item to the list\n"
-                              "  delete   delete item from the list\n"
+                              "  rm       remove item from the list\n"
                               "  edit     edit item from the list\n"
                               "  finish   toggle item status\n"
                               "  help     show this message\n"

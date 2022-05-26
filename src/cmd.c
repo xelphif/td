@@ -16,7 +16,7 @@ struct cmd_struct {
 
 static struct cmd_struct commands[] = {
     {"add",     cmd_add   },
-    { "delete", cmd_delete},
+    { "rm",     cmd_rm    },
     { "edit",   cmd_edit  },
     { "help",   cmd_help  },
     { "finish", cmd_finish},

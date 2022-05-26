@@ -15,6 +15,7 @@ Makefile
 missing
 td
 check_array
+check_item
 test-driver
 autom4te.cache/
 .deps/
