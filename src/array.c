@@ -4,7 +4,6 @@
 #include <string.h>
 
 #define DEFAULT_CAPACITY 1 << 4
-#define INDEX_OUT_OF_BOUNDS NULL
 
 array_t *a_init(void)
 {
@@ -37,22 +36,6 @@ void *a_push(array_t *a, void *value)
     return value;
 }
 
-/*
-void *a_insert(array_t *a, void *value, const unsigned int index)
-{
-    if (index == a->size)
-        a_push(a, value);
-
-    if (a->size >= a->capacity)
-        a->items = realloc(a->items, (a->capacity <<= 1) * sizeof(void *));
-
-    memmove(a->items + index + 1, a->items + index,
-            sizeof(void *) * (a->size - index - 1));
-
-    return value;
-}
-*/
-
 static int contains(const size_t size, const unsigned int index)
 {
     return size >= 0 && index < size;
@@ -61,7 +44,7 @@ static int contains(const size_t size, const unsigned int index)
 void *a_get(array_t *a, const unsigned int index)
 {
     if (!contains(a->size, index))
-        return INDEX_OUT_OF_BOUNDS;
+        return NULL;
 
     return a->items[index];
 }

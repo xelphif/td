@@ -2,7 +2,6 @@
 
 #include "item.h"
 #include "log.h"
-#include "serialize.h"
 
 #include <stdio.h>
 
@@ -23,8 +22,6 @@ int cmd_add(int argc, const char **argv, array_t *array)
     }
 
     add_args(argc - 1, argv + 1, array);
-
-    serialize(array);
 
     return 0;
 }

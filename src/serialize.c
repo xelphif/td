@@ -26,12 +26,6 @@ int file_delete(void)
 
 int serialize(array_t *array)
 {
-    if (!array->size) {
-        LOG_WARN("Empty list, deleting file.")
-        file_delete();
-        return 1;
-    }
-
     json_object *json_array = json_object_new_array();
 
     if (!json_array) {

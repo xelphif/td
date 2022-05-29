@@ -1,7 +1,6 @@
 #include "cmd.h"
 
 #include "item.h"
-#include "serialize.h"
 
 static int fsort(array_t *array)
 {
@@ -26,6 +25,5 @@ int cmd_sort(int argc, const char **argv, array_t *array)
 {
     fsort(array);
 
-    serialize(array);
     return 0;
 }

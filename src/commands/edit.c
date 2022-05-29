@@ -2,7 +2,6 @@
 
 #include "item.h"
 #include "log.h"
-#include "serialize.h"
 
 int cmd_edit(int argc, const char **argv, array_t *array)
 {
@@ -25,8 +24,6 @@ int cmd_edit(int argc, const char **argv, array_t *array)
     }
 
     a_set(array, item, index);
-
-    serialize(array);
 
     return 0;
 }

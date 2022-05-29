@@ -2,7 +2,6 @@
 
 #include "item.h"
 #include "log.h"
-#include "serialize.h"
 
 static int finish_args(int argc, const char **argv, array_t *array)
 {
@@ -27,8 +26,6 @@ int cmd_finish(int argc, const char **argv, array_t *array)
     }
 
     finish_args(argc - 1, argv + 1, array);
-
-    serialize(array);
 
     return 0;
 }

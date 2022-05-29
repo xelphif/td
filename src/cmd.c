@@ -7,7 +7,6 @@
 #include "log.h"
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-#define DEFAULT_CMD "ls"
 
 struct cmd_struct {
     char *cmd;
@@ -34,15 +33,9 @@ int strarg(const char *s)
 {
     errno = 0;
     char *endptr;
-
     int val = strtol(s, &endptr, 10);
 
-    if (s == endptr)
-        return -1;
-
-    // check if value is out of range or if
-    // the input was invalid
-    if (errno != 0)
+    if (s == endptr || errno != 0)
         return -1;
 
     return val;
@@ -65,7 +58,7 @@ int handle_cmd(int argc, const char **argv, array_t *array)
     const char *cmd = argv[0];
 
     if (!cmd)
-        cmd = DEFAULT_CMD;
+        cmd = "ls";
 
     if (argc > 1 && !strcmp(argv[1], "--help")) {
         argv[1] = argv[0];

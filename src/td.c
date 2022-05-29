@@ -17,6 +17,7 @@ int main(int argc, const char *argv[])
     deserialize(array);
 
     int status = handle_cmd(argc - 1, argv + 1, array);
+    serialize(array);
     a_destroy(array);
     return status;
 }

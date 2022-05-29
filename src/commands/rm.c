@@ -16,8 +16,6 @@ static int delete_finished(array_t *array)
             status = a_delete(array, i--);
     }
 
-    serialize(array);
-
     return status;
 }
 
@@ -30,8 +28,6 @@ static int delete_arg(const char *arg, array_t *array)
     }
 
     int status = a_delete(array, index);
-
-    serialize(array);
 
     return status;
 }
