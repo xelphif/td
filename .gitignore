@@ -1,12 +1,12 @@
 *.o
 *.json
 *.log
+*.status
 *.trs
 *~
 .clang-format
 aclocal.m4
 compile*
-config.*
 configure
 depcomp
 install-sh
