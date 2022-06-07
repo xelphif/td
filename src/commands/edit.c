@@ -3,9 +3,9 @@
 #include "item.h"
 #include "log.h"
 
-int cmd_edit(int argc, const char **argv, array_t *array)
+int cmd_edit(int argc, const char **argv, struct array *array)
 {
-    if (argc < 3) {
+    if (argc <= 2) {
         LOG_ERR(NOT_ENOUGH_ARGS);
         return 1;
     }
@@ -16,7 +16,7 @@ int cmd_edit(int argc, const char **argv, array_t *array)
         return 1;
     }
 
-    item_t *item = a_get(array, index);
+    struct item *item = a_get(array, index);
 
     if (item_set_text(&item, argv[2])) {
         LOG_ERR(INVALID_ARG);

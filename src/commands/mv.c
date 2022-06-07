@@ -4,12 +4,12 @@
 
 int cmd_mv(int argc, const char **argv, struct array *array)
 {
-    if (argc < 3) {
+    if (argc <= 2) {
         LOG_ERR(NOT_ENOUGH_ARGS);
         return 1;
     }
 
-    int src = strarg(argv[1]);
+    int src  = strarg(argv[1]);
     int dest = strarg(argv[2]);
 
     if (src == -1 || dest == -1) {

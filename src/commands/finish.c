@@ -3,7 +3,7 @@
 #include "item.h"
 #include "log.h"
 
-static int finish_args(int argc, const char **argv, array_t *array)
+static int finish_args(int argc, const char **argv, struct array *array)
 {
     for (int i = 0; i < argc; i++) {
         int index;
@@ -18,9 +18,9 @@ static int finish_args(int argc, const char **argv, array_t *array)
     return 0;
 }
 
-int cmd_finish(int argc, const char **argv, array_t *array)
+int cmd_finish(int argc, const char **argv, struct array *array)
 {
-    if (argc < 2) {
+    if (argc <= 1) {
         LOG_WARN(NOT_ENOUGH_ARGS);
         return 1;
     }

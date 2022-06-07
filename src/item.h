@@ -3,16 +3,13 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct item {
+struct item {
     bool status;
     size_t len;
     char text[];
-} item_t;
+};
 
-extern char symbols[2];
-
-#define STATUS_S(x) symbols[(x)->status]
-
-item_t *item_init(const char *text, bool status);
-int item_set_text(item_t **item_ref, const char *text);
-int item_finish(item_t *item);
+struct item *item_init(const char *text, bool status);
+int item_set_text(struct item **item_ref, const char *text);
+int item_finish(struct item *item);
+char item_symbol(struct item *item);

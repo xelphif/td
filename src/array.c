@@ -5,17 +5,17 @@
 
 #define DEFAULT_CAPACITY 1 << 4
 
-array_t *a_init(void)
+struct array *a_init(void)
 {
-    array_t *a  = malloc(sizeof(array_t));
-    a->items    = calloc(DEFAULT_CAPACITY, sizeof(void *));
-    a->capacity = DEFAULT_CAPACITY;
-    a->size     = 0;
+    struct array *a = malloc(sizeof(struct array));
+    a->items        = calloc(DEFAULT_CAPACITY, sizeof(void *));
+    a->capacity     = DEFAULT_CAPACITY;
+    a->size         = 0;
 
     return a;
 }
 
-void a_destroy(array_t *a)
+void a_destroy(struct array *a)
 {
     while (a->size)
         a_delete(a, a->size - 1);
@@ -26,7 +26,7 @@ void a_destroy(array_t *a)
     return;
 }
 
-void *a_push(array_t *a, void *value)
+void *a_push(struct array *a, void *value)
 {
     if (a->size >= a->capacity)
         a->items = realloc(a->items, (a->capacity <<= 1) * sizeof(void *));
@@ -41,7 +41,7 @@ static int contains(const size_t size, const unsigned int index)
     return size >= 0 && index < size;
 }
 
-void *a_get(array_t *a, const unsigned int index)
+void *a_get(struct array *a, const unsigned int index)
 {
     if (!contains(a->size, index))
         return NULL;
@@ -49,7 +49,7 @@ void *a_get(array_t *a, const unsigned int index)
     return a->items[index];
 }
 
-int a_set(array_t *a, void *value, const unsigned int index)
+int a_set(struct array *a, void *value, const unsigned int index)
 {
     if (!contains(a->size, index))
         return 1;
@@ -58,7 +58,7 @@ int a_set(array_t *a, void *value, const unsigned int index)
     return 0;
 }
 
-int a_swap(array_t *a, const unsigned int x, const unsigned int y)
+int a_swap(struct array *a, const unsigned int x, const unsigned int y)
 {
     if (!contains(a->size, x))
         return 1;
@@ -71,7 +71,7 @@ int a_swap(array_t *a, const unsigned int x, const unsigned int y)
     return 0;
 }
 
-int a_move(array_t *a, const unsigned int dest, const unsigned int src)
+int a_move(struct array *a, const unsigned int dest, const unsigned int src)
 {
     if (!contains(a->size, dest))
         return 1;
@@ -93,7 +93,7 @@ int a_move(array_t *a, const unsigned int dest, const unsigned int src)
     return 0;
 }
 
-int a_delete(array_t *a, const unsigned int index)
+int a_delete(struct array *a, const unsigned int index)
 {
     if (!contains(a->size, index))
         return 1;

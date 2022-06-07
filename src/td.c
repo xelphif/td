@@ -13,7 +13,7 @@ int main(int argc, const char *argv[])
         return 1;
     }
 
-    array_t *array = a_init();
+    struct array *array = a_init();
     deserialize(array);
 
     int status = handle_cmd(argc - 1, argv + 1, array);

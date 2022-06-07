@@ -2,9 +2,9 @@
 
 #include "log.h"
 
-int cmd_swap(int argc, const char **argv, array_t *array)
+int cmd_swap(int argc, const char **argv, struct array *array)
 {
-    if (argc < 3)
+    if (argc <= 2)
         return 1;
 
     int x = strarg(argv[1]);

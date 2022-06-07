@@ -2,7 +2,7 @@
 
 #include <check.h>
 
-item_t *item;
+struct item *item;
 
 START_TEST(test_item_init)
 {
@@ -19,7 +19,7 @@ START_TEST(test_item_set_text)
     ck_assert_str_eq(item->text, "new text");
     ck_assert_uint_eq(item->len, 9);
 
-    item_t *null_item = NULL;
+    struct item *null_item = NULL;
     ck_assert_int_eq(item_set_text(&null_item, "text"), 1);
 }
 END_TEST
@@ -38,11 +38,11 @@ END_TEST
 
 START_TEST(test_item_status_s)
 {
-    ck_assert_uint_eq(STATUS_S(item), symbols[0]);
+    ck_assert_uint_eq(item_symbol(item), symbols[0]);
 
     item->status = 1;
 
-    ck_assert_uint_eq(STATUS_S(item), symbols[1]);
+    ck_assert_uint_eq(item_symbol(item), symbols[1]);
 }
 END_TEST
 

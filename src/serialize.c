@@ -8,7 +8,7 @@
 
 char *filename = ".todo.json";
 
-static json_object *json_item_init(item_t *item)
+static json_object *json_item_init(struct item *item)
 {
     json_object *obj = json_object_new_object();
 
@@ -24,7 +24,7 @@ int file_delete(void)
     return !!remove(filename);
 }
 
-int serialize(array_t *array)
+int serialize(struct array *array)
 {
     json_object *json_array = json_object_new_array();
 
@@ -42,7 +42,7 @@ int serialize(array_t *array)
     return 0;
 }
 
-int deserialize(array_t *array)
+int deserialize(struct array *array)
 {
     json_object *json_array = json_object_from_file(filename);
 

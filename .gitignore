@@ -14,9 +14,8 @@ Makefile.in
 Makefile
 missing
 td
-check_array
-check_item
-check_cmd
+check_*
+!check_*.c
 test-driver
 autom4te.cache/
 .deps/

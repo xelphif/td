@@ -7,11 +7,11 @@
 #include "log.h"
 #include "serialize.h"
 
-static int delete_finished(array_t *array)
+static int delete_finished(struct array *array)
 {
     int status = 0;
     for (int i = 0; i < array->size; i++) {
-        item_t *item = a_get(array, i);
+        struct item *item = a_get(array, i);
         if (item->status)
             status = a_delete(array, i--);
     }
@@ -19,7 +19,7 @@ static int delete_finished(array_t *array)
     return status;
 }
 
-static int delete_arg(const char *arg, array_t *array)
+static int delete_arg(const char *arg, struct array *array)
 {
     int index;
     if ((index = strarg(arg)) == -1) {
@@ -32,9 +32,9 @@ static int delete_arg(const char *arg, array_t *array)
     return status;
 }
 
-int cmd_rm(int argc, const char **argv, array_t *array)
+int cmd_rm(int argc, const char **argv, struct array *array)
 {
-    if (argc < 2) {
+    if (argc <= 1) {
         LOG_ERR(NOT_ENOUGH_ARGS);
         return 1;
     }

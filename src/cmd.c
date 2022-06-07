@@ -10,7 +10,7 @@
 
 struct cmd_struct {
     char *cmd;
-    int (*fn)(int, const char **, array_t *);
+    int (*fn)(int, const char **, struct array *);
 };
 
 static struct cmd_struct commands[] = {
@@ -52,7 +52,7 @@ static struct cmd_struct *get_cmd(const char *cmd)
     return NULL;
 }
 
-int handle_cmd(int argc, const char **argv, array_t *array)
+int handle_cmd(int argc, const char **argv, struct array *array)
 {
     struct cmd_struct *cmdp;
     const char *cmd = argv[0];

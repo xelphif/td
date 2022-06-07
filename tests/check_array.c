@@ -2,7 +2,7 @@
 
 #include <check.h>
 
-array_t *a;
+struct array *a;
 
 START_TEST(test_array_init)
 {

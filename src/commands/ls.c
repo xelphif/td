@@ -5,7 +5,7 @@
 #include "item.h"
 #include "log.h"
 
-static int print_array(array_t *array)
+static int print_array(struct array *array)
 {
     if (!array->size) {
         LOG_WARN("no list found");
@@ -13,14 +13,14 @@ static int print_array(array_t *array)
     }
 
     for (int i = 0; i < array->size; i++) {
-        item_t *item = a_get(array, i);
-        printf("%2d. [%c] %s\n", i, STATUS_S(item), item->text);
+        struct item *item = a_get(array, i);
+        printf("%2d. [%c] %s\n", i, item_symbol(item), item->text);
     }
 
     return 0;
 }
 
-int cmd_ls(int argc, const char **argv, array_t *array)
+int cmd_ls(int argc, const char **argv, struct array *array)
 {
     return print_array(array);
 }
