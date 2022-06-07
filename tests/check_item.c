@@ -1,6 +1,5 @@
 #include "item.c"
-
-#include <check.h>
+#include "util.h"
 
 struct item *item;
 
@@ -56,31 +55,15 @@ void teardown(void)
     free(item);
 }
 
-Suite *item_suite(void)
-{
-    Suite *s       = suite_create("item");
-    TCase *tc_core = tcase_create("core");
-
-    tcase_add_checked_fixture(tc_core, setup, teardown);
-    tcase_add_test(tc_core, test_item_init);
-    tcase_add_test(tc_core, test_item_set_text);
-    tcase_add_test(tc_core, test_item_finish);
-    tcase_add_test(tc_core, test_item_status_s);
-    suite_add_tcase(s, tc_core);
-
-    return s;
-}
-
 int main()
 {
-    int number_failed;
+    const TTest *tests[] = {
+        test_item_init,
+        test_item_set_text,
+        test_item_finish,
+        test_item_status_s,
+        NULL,
+    };
 
-    Suite *s    = item_suite();
-    SRunner *sr = srunner_create(s);
-
-    srunner_run_all(sr, CK_VERBOSE);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return number_failed ? 1 : 0;
+    return run_tests("item", tests, setup, teardown);
 }

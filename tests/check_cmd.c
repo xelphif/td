@@ -1,6 +1,5 @@
 #include "cmd.c"
-
-#include <check.h>
+#include "util.h"
 
 /* stubs */
 int cmd_finish(int argc, const char **argv, struct array *array)
@@ -118,14 +117,12 @@ Suite *cmd_suite(void)
 
 int main()
 {
-    int number_failed;
+    const TTest *tests[] = {
+        test_cmd_strarg,
+        test_cmd_get,
+        test_cmd_handle,
+        NULL,
+    };
 
-    Suite *s    = cmd_suite();
-    SRunner *sr = srunner_create(s);
-
-    srunner_run_all(sr, CK_VERBOSE);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return number_failed ? 1 : 0;
+    return run_tests("cmd", tests, NULL, NULL);
 }

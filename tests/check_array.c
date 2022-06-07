@@ -1,6 +1,5 @@
 #include "array.c"
-
-#include <check.h>
+#include "util.h"
 
 struct array *a;
 
@@ -113,33 +112,12 @@ static void teardown()
     a_destroy(a);
 }
 
-Suite *array_suite(void)
-{
-    Suite *s       = suite_create("array");
-    TCase *tc_core = tcase_create("core");
-
-    tcase_add_checked_fixture(tc_core, setup, teardown);
-    tcase_add_test(tc_core, test_array_init);
-    tcase_add_test(tc_core, test_array_push);
-    tcase_add_test(tc_core, test_array_get);
-    tcase_add_test(tc_core, test_array_swap);
-    tcase_add_test(tc_core, test_array_move);
-    tcase_add_test(tc_core, test_array_delete);
-    suite_add_tcase(s, tc_core);
-
-    return s;
-}
-
 int main()
 {
-    int number_failed;
+    const TTest *tests[] = {
+        test_array_init, test_array_push,   test_array_get, test_array_swap,
+        test_array_move, test_array_delete, NULL,
+    };
 
-    Suite *s    = array_suite();
-    SRunner *sr = srunner_create(s);
-
-    srunner_run_all(sr, CK_VERBOSE);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return number_failed ? 1 : 0;
+    return run_tests("array", tests, setup, teardown);
 }
