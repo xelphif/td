@@ -1,5 +1,4 @@
 *.o
-*.json
 *.log
 *.status
 *.trs
