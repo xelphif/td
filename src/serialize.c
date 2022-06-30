@@ -1,7 +1,7 @@
 #include "serialize.h"
 
-#include <stdio.h>
 #include <json-c/json.h>
+#include <stdio.h>
 
 #include "item.h"
 #include "log.h"
@@ -19,13 +19,18 @@ static json_object *json_item_init(struct item *item)
     return obj;
 }
 
-int file_delete(void)
+static int file_delete(void)
 {
     return !!remove(filename);
 }
 
 int serialize(struct array *array)
 {
+    if (!array->size) {
+        file_delete();
+        return 0;
+    }
+
     json_object *json_array = json_object_new_array();
 
     if (!json_array) {
@@ -53,8 +58,8 @@ int deserialize(struct array *array)
 
     size_t json_array_len = json_object_array_length(json_array);
     for (int i = 0; i < json_array_len; i++) {
-        json_object *temp   = json_object_array_get_idx(json_array, i);
-        json_object *text   = json_object_object_get(temp, "text");
+        json_object *temp = json_object_array_get_idx(json_array, i);
+        json_object *text = json_object_object_get(temp, "text");
         json_object *status = json_object_object_get(temp, "status");
 
         a_push(array, item_init(json_object_get_string(text),

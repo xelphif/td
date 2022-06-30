@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TD_ARRAY_H
+#define _TD_ARRAY_H
 
 #include <stddef.h>
 
@@ -16,3 +17,5 @@ int a_set(struct array *a, void *value, const unsigned int index);
 int a_swap(struct array *a, const unsigned int x, const unsigned int y);
 int a_move(struct array *a, const unsigned int dest, const unsigned int src);
 int a_delete(struct array *a, const unsigned int index);
+
+#endif

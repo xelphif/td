@@ -39,9 +39,6 @@ int cmd_rm(int argc, const char **argv, struct array *array)
         return 1;
     }
 
-    if (!strcmp(argv[1], "all"))
-        return file_delete();
-
     if (!strcmp(argv[1], "finished"))
         return delete_finished(array);
 

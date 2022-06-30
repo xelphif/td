@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TD_LOG_H
+#define _TD_LOG_H
 
 enum log_class {
     LOG_CLASS_NONE,
@@ -17,3 +18,5 @@ void log_msg(enum log_class log_class, const char *file, int lineno,
 
 #define INVALID_ARG "invalid argument"
 #define NOT_ENOUGH_ARGS "not enough arguments"
+
+#endif

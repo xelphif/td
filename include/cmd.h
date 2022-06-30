@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TD_CMD_H
+#define _TD_CMD_H
 
 #include "array.h"
 
@@ -14,3 +15,5 @@ int cmd_ls(int argc, const char **argv, struct array *array);
 int cmd_mv(int argc, const char **argv, struct array *array);
 int cmd_sort(int argc, const char **argv, struct array *array);
 int cmd_swap(int argc, const char **argv, struct array *array);
+
+#endif

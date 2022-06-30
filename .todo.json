@@ -1,0 +1,18 @@
+[
+  {
+    "text":"improve Makefile",
+    "status":false
+  },
+  {
+    "text":"add documentation\/comments",
+    "status":false
+  },
+  {
+    "text":"update README",
+    "status":false
+  },
+  {
+    "text":"clean up stuff",
+    "status":false
+  }
+]
